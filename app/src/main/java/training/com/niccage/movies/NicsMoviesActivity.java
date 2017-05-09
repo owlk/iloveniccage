@@ -20,7 +20,7 @@ public class NicsMoviesActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-//        mAdapter = new NicAdapter(myDataset);
+//        mAdapter = new NicMovieAdapter(myDataset);
 //        mRecyclerView.setAdapter(mAdapter);
     }
 }

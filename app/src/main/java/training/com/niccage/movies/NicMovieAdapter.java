@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import training.com.niccage.R;
 
-public class NicAdapter extends RecyclerView.Adapter<NicAdapter.NicMovieViewHolder> {
+public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMovieViewHolder> {
     @Override
     public NicMovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
