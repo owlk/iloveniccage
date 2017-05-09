@@ -1,7 +1,7 @@
 package training.com.movieapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +16,6 @@ import training.com.movieapp.rest.MoveDbAPI;
 import training.com.movieapp.rest.model.NicolasTrivia;
 
 public class MainActivity extends AppCompatActivity {
-
     private MoveDbAPI api = new MoveDbAPI();
 
     @Override
@@ -24,28 +23,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView textView = (TextView) findViewById(R.id.nicCageDataTextView);
-
-        api.getNickCage(new Callback() {
+        findViewById(R.id.requestNicCageButton).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final NicolasTrivia nicolasTrivia = new Gson().fromJson(response.body().string(), NicolasTrivia.class);
-
-                MainActivity.this.runOnUiThread(new Runnable() {
+            public void onClick(View v) {
+                api.getNickCage(new Callback() {
                     @Override
-                    public void run() {
-                        textView.setText(nicolasTrivia.getBiography());
+                    public void onFailure(Call call, IOException e) { }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        final NicolasTrivia nicolasTrivia = new Gson().fromJson(response.body().string(), NicolasTrivia.class);
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.nicCageDataTextView)).setText(nicolasTrivia.getBiography());
+                            }
+                        });
                     }
                 });
-
-
             }
         });
-
     }
 }
