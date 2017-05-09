@@ -15,12 +15,7 @@ public class NicsMoviesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nics_movies);
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.nicRecyclerView);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
