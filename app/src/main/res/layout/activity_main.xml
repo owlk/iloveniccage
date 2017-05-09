@@ -36,7 +36,6 @@
         <TextView
             android:id="@+id/nicCageDataTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="TextView" />
+            android:layout_height="match_parent" />
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
