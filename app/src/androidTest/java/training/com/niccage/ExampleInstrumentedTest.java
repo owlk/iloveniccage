@@ -1,4 +1,4 @@
-package training.com.movieapp;
+package training.com.niccage;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

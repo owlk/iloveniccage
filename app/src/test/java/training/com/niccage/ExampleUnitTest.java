@@ -1,4 +1,4 @@
-package training.com.movieapp;
+package training.com.niccage;
 
 import org.junit.Test;
 
