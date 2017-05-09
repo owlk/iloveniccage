@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'niccage'
+            keyPassword 'abc123'
+            storeFile file('/Users/owolk/Downloads/shitrepo.jks')
+            storePassword 'abc123'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
@@ -16,21 +24,20 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'com.google.code.gson:gson:2.8.0'
-
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     testCompile 'junit:junit:4.12'
 }

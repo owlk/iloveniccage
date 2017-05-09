@@ -1,10 +1,8 @@
 package training.com.movieapp.rest.model;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by owolk on 5/9/17.
- */
+import java.util.List;
 
 public class NicolasTrivia {
 
@@ -19,6 +17,9 @@ public class NicolasTrivia {
     private Integer gender;
 
     private Double popularity;
+
+    @SerializedName("profile_path")
+    private String profilePath;
 
     public boolean isAdult() {
         return adult;
@@ -66,6 +67,14 @@ public class NicolasTrivia {
 
     public void setPopularity(Double popularity) {
         this.popularity = popularity;
+    }
+
+    public String getProfilePath() {
+        return profilePath;
+    }
+
+    public void setProfilePath(String profilePath) {
+        this.profilePath = profilePath;
     }
 
 

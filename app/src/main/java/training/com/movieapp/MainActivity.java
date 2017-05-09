@@ -3,9 +3,13 @@ package training.com.movieapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.IOException;
 
@@ -37,8 +41,14 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 ((TextView) findViewById(R.id.nicCageDataTextView)).setText(nicolasTrivia.getBiography());
+
+                                ImageLoader imageLoader = ImageLoader.getInstance();
+                                imageLoader.init( new ImageLoaderConfiguration.Builder(MainActivity.this).build());
+                                imageLoader.displayImage("https://image.tmdb.org/t/p/w180_and_h180_bestv2" + nicolasTrivia.getProfilePath(), (ImageView) findViewById(R.id.nicPic));
                             }
                         });
+
+
                     }
                 });
             }
