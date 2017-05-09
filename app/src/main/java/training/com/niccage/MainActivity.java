@@ -21,11 +21,6 @@ import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageDetails;
 
 public class MainActivity extends AppCompatActivity {
-    private static final NicCageAPI API = new Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(NicCageAPI.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
