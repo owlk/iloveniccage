@@ -1,7 +1,9 @@
 package training.com.niccage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import training.com.niccage.cache.NicCageCache;
+import training.com.niccage.movies.NicsMoviesActivity;
 import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageDetails;
 
@@ -28,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.nicMoviesButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.startActivity(new Intent(MainActivity.this, NicsMoviesActivity.class));
+            }
+        });
 
         NicCageDetails nicCageDetails = NicCageCache.getNicCageDetails();
         if (nicCageDetails == null) {
