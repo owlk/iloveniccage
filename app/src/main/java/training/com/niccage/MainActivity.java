@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<NicCageDetails> call, Response<NicCageDetails> response) {
                     final NicCageDetails nicCageDetails = response.body();
                     NicCageCache.setNicCageDetails(nicCageDetails);
-                    setBiographyAndImage(nicCageDetails);
+                    setDetails(nicCageDetails);
                 }
 
                 @Override
@@ -48,18 +48,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            setBiographyAndImage(nicCageDetails);
+            setDetails(nicCageDetails);
         }
     }
 
-    private void setBiographyAndImage(final NicCageDetails nicCageDetails) {
+    private void setDetails(final NicCageDetails nicCageDetails) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TextView) findViewById(R.id.nicCageDataTextView)).setText(nicCageDetails.getBiography());
+                ((TextView) findViewById(R.id.biographyTextView)).setText(nicCageDetails.getBiography());
+                ((TextView) findViewById(R.id.nameTextView)).setText(nicCageDetails.getName());
+                ((TextView) findViewById(R.id.birthdayTextView)).setText(nicCageDetails.getBirthday());
                 Glide.with(MainActivity.this)
                         .load("https://image.tmdb.org/t/p/w180_and_h180_bestv2" + nicCageDetails.getProfilePath())
-                        .into((ImageView) findViewById(R.id.nicPic));
+                        .into((ImageView) findViewById(R.id.profileImageView));
             }
         });
     }
