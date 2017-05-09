@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'niccage'
             keyPassword 'abc123'
-            storeFile file('/Users/owolk/Downloads/shitrepo.jks')
+            storeFile file('/home/verzano/keystores/shitrepo.jks')
             storePassword 'abc123'
         }
     }
