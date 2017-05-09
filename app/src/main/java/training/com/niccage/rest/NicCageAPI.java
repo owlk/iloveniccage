@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import training.com.niccage.BuildConfig;
 import training.com.niccage.rest.model.NicCageDetails;
-import training.com.niccage.rest.model.NicMovies;
+import training.com.niccage.rest.model.NicCageMoviesList;
 
 public interface NicCageAPI {
 
@@ -20,7 +20,7 @@ public interface NicCageAPI {
     Call<NicCageDetails> getNickCage();
 
     @GET("person/2963/movie_credits?api_key=" + BuildConfig.API_KEY)
-    Call<NicMovies> getNicMovies();
+    Call<NicCageMoviesList> getNicMovies();
 
 
 }

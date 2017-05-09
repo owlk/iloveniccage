@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.bumptech.glide.Glide;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,14 +53,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setBiographyAndImage(final NicCageDetails nicCageDetails) {
-        MainActivity.this.runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ((TextView) findViewById(R.id.nicCageDataTextView)).setText(nicCageDetails.getBiography());
-
-                ImageLoader imageLoader = ImageLoader.getInstance();
-                imageLoader.init(new ImageLoaderConfiguration.Builder(MainActivity.this).build());
-                imageLoader.displayImage("https://image.tmdb.org/t/p/w180_and_h180_bestv2" + nicCageDetails.getProfilePath(), (ImageView) findViewById(R.id.nicPic));
+                Glide.with(MainActivity.this)
+                        .load("https://image.tmdb.org/t/p/w180_and_h180_bestv2" + nicCageDetails.getProfilePath())
+                        .into((ImageView) findViewById(R.id.nicPic));
             }
         });
     }

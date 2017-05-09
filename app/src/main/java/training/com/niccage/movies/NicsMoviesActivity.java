@@ -11,7 +11,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import training.com.niccage.R;
 import training.com.niccage.rest.NicCageAPI;
-import training.com.niccage.rest.model.NicMovies;
+import training.com.niccage.rest.model.NicCageMoviesList;
 
 public class NicsMoviesActivity extends AppCompatActivity {
     @Override
@@ -31,14 +31,14 @@ public class NicsMoviesActivity extends AppCompatActivity {
 
         // specify an adapter (see also next example)
 
-        NicCageAPI.API.getNicMovies().enqueue(new Callback<NicMovies>() {
+        NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
             @Override
-            public void onResponse(Call<NicMovies> call, Response<NicMovies> response) {
+            public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
                 mRecyclerView.setAdapter(new NicMovieAdapter(response.body().getCast()));
             }
 
             @Override
-            public void onFailure(Call<NicMovies> call, Throwable t) {
+            public void onFailure(Call<NicCageMoviesList> call, Throwable t) {
 
             }
         });

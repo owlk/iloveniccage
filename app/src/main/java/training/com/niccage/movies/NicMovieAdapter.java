@@ -1,31 +1,46 @@
 package training.com.niccage.movies;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import training.com.niccage.R;
-import training.com.niccage.rest.model.NicCast;
+import training.com.niccage.rest.model.NicCageMovie;
 
 public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMovieViewHolder> {
-    private final List<NicCast> cast;
+    private final List<NicCageMovie> cast;
 
-    public NicMovieAdapter(List<NicCast> cast) {
+    public NicMovieAdapter(List<NicCageMovie> cast) {
         this.cast = cast;
     }
 
     @Override
     public NicMovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.list_item_nic_movie, parent, false);
+        return new NicMovieViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(NicMovieViewHolder holder, int position) {
+        NicCageMovie movie = cast.get(position);
 
+        Context context = holder.posterImageView.getContext();
+        String posterUrl = context.getString(R.string.image_url) + movie.getPosterPath();
+        Glide.with(context).load(posterUrl).into(holder.posterImageView);
+
+        holder.titleTextView.setText(movie.getTitle());
+
+        holder.releaseDateTextView.setText(movie.getReleaseDate());
     }
 
     @Override
