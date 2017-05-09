@@ -9,20 +9,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
 import training.com.movieapp.BuildConfig;
 import training.com.movieapp.rest.model.NicolasTrivia;
 
-public class MoveDbAPI {
+public interface MoveDbAPI {
 
-    private final Gson gson = new Gson();
-    private final OkHttpClient client = new OkHttpClient();
-
-    public void getNickCage(Callback callback) {
-        Request request = new Request.Builder()
-                .url("https://api.themoviedb.org/3/person/2963?api_key=" + BuildConfig.API_KEY)
-                .build();
-
-        client.newCall(request).enqueue(callback);
-    }
+    @GET("person/2963?api_key=" + BuildConfig.API_KEY)
+    Call<NicolasTrivia> getNickCage();
 
 }

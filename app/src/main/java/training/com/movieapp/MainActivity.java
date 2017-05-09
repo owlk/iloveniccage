@@ -9,34 +9,39 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import training.com.movieapp.rest.MoveDbAPI;
 import training.com.movieapp.rest.model.NicolasTrivia;
 
 public class MainActivity extends AppCompatActivity {
-    private MoveDbAPI api = new MoveDbAPI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.themoviedb.org/3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        final MoveDbAPI api = retrofit.create(MoveDbAPI.class);
+
+
         findViewById(R.id.requestNicCageButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                api.getNickCage(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) { }
+                api.getNickCage().enqueue(new Callback<NicolasTrivia>() {
+
 
                     @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        final NicolasTrivia nicolasTrivia = new Gson().fromJson(response.body().string(), NicolasTrivia.class);
+                    public void onResponse(Call<NicolasTrivia> call, Response<NicolasTrivia> response) {
+                        final NicolasTrivia nicolasTrivia = response.body();
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -47,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
                                 imageLoader.displayImage("https://image.tmdb.org/t/p/w180_and_h180_bestv2" + nicolasTrivia.getProfilePath(), (ImageView) findViewById(R.id.nicPic));
                             }
                         });
+                    }
 
+                    @Override
+                    public void onFailure(Call<NicolasTrivia> call, Throwable t) {
 
                     }
                 });
