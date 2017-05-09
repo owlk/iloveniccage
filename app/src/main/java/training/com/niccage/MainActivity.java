@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.nameTextView)).setText(nicCageDetails.getName());
                 ((TextView) findViewById(R.id.birthdayTextView)).setText(nicCageDetails.getBirthday());
                 Glide.with(MainActivity.this)
-                        .load("https://image.tmdb.org/t/p/w180_and_h180_bestv2" + nicCageDetails.getProfilePath())
+                        .load(getString(R.string.image_url) + nicCageDetails.getProfilePath())
                         .into((ImageView) findViewById(R.id.profileImageView));
             }
         });
