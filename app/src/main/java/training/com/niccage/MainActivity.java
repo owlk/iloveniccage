@@ -13,12 +13,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.movies.NicsMoviesActivity;
-import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageDetails;
+
+import static training.com.niccage.rest.NicCageAPI.API;
 
 public class MainActivity extends AppCompatActivity {
 

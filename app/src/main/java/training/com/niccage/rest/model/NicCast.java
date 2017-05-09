@@ -2,7 +2,7 @@ package training.com.niccage.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
-class NicCast {
+public class NicCast {
 
     private boolean adult;
 

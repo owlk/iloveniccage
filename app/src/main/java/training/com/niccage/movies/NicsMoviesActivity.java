@@ -34,7 +34,7 @@ public class NicsMoviesActivity extends AppCompatActivity {
         NicCageAPI.API.getNicMovies().enqueue(new Callback<NicMovies>() {
             @Override
             public void onResponse(Call<NicMovies> call, Response<NicMovies> response) {
-                mRecyclerView.setAdapter(new NicAdapter(response.body().getCast()));
+                mRecyclerView.setAdapter(new NicMovieAdapter(response.body().getCast()));
             }
 
             @Override
