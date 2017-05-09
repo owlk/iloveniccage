@@ -76,6 +76,4 @@ public class NicolasTrivia {
     public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
     }
-
-
 }

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -37,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 api.getNickCage().enqueue(new Callback<NicolasTrivia>() {
-
-
                     @Override
                     public void onResponse(Call<NicolasTrivia> call, Response<NicolasTrivia> response) {
                         final NicolasTrivia nicolasTrivia = response.body();
