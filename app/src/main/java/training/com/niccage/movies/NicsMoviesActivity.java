@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import training.com.niccage.R;
+import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageMoviesList;
 
@@ -24,17 +25,22 @@ public class NicsMoviesActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
-            @Override
-            public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
-                mRecyclerView.setAdapter(new NicMovieAdapter(response.body().getCast()));
-            }
+        NicCageMoviesList movies = NicCageCache.getNicCageMovies();
+        if (movies == null) {
+            NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
+                @Override
+                public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
+                    NicCageCache.setNicCageMovies(response.body());
+                    mRecyclerView.setAdapter(new NicMovieAdapter(response.body().getCast()));
+                }
 
-            @Override
-            public void onFailure(Call<NicCageMoviesList> call, Throwable t) {
+                @Override
+                public void onFailure(Call<NicCageMoviesList> call, Throwable t) {
 
-            }
-        });
-
+                }
+            });
+        } else {
+            mRecyclerView.setAdapter(new NicMovieAdapter(movies.getCast()));
+        }
     }
 }
