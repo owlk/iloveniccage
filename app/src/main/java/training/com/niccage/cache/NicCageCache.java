@@ -1,6 +1,7 @@
 package training.com.niccage.cache;
 
-import android.util.LruCache;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +19,7 @@ public class NicCageCache {
     private NicCageMovies nicCageMovies;
     private Subscriber<NicCageMovies> nicCageMoviesListSubscriber;
 
-    private LruCache<Integer, SimilarMovies> similarMoviesCache = new LruCache<>(1024 * 1024 * 4);
+    private Map<Integer, SimilarMovies> similarMoviesCache = new HashMap<>();
     private Subscriber<SimilarMovies> similarMoviesSubscriber;
 
     public void subscribeToNicCageDetails(Subscriber<NicCageDetails> callback) {
