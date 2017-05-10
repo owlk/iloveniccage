@@ -13,6 +13,10 @@ import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.rest.model.NicCageMoviesList;
 
 public class NicsMoviesActivity extends AppCompatActivity {
+    private int getColumnCount() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 2;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +40,5 @@ public class NicsMoviesActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    private int getColumnCount() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 3;
     }
 }

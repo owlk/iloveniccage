@@ -52,8 +52,12 @@ public class NicCageCache {
         }
     }
 
-    public void subscribeToSimilarMovies(NicCageCacheCallback<SimilarMovies> callback) {
+    public void subscribeToSimilarMovies(Integer movieId, NicCageCacheCallback<SimilarMovies> callback) {
         similarMoviesListener = callback;
+        SimilarMovies similarMovies = similarMoviesCache.get(movieId);
+        if (similarMovies != null) {
+            callback.call(similarMovies);
+        }
     }
 
     public void unsubscribeToSimilarMovies() {
