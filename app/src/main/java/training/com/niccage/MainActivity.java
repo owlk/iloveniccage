@@ -4,22 +4,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.movies.NicsMoviesActivity;
 import training.com.niccage.rest.model.NicCageDetails;
 
 public class MainActivity extends AppCompatActivity {
+    @BindView(R.id.biographyTextView)
+    TextView biographyTextView;
+    @BindView(R.id.birthdayTextView)
+    TextView birthdayTextView;
+    @BindView(R.id.nameTextView)
+    TextView nameTextView;
+    @BindView(R.id.nicMoviesButton)
+    Button nicMoviesButton;
+    @BindView(R.id.profileImageView)
+    ImageView profileImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        findViewById(R.id.nicMoviesButton).setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+        nicMoviesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.this.startActivity(new Intent(MainActivity.this, NicsMoviesActivity.class));
@@ -33,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ((TextView) findViewById(R.id.biographyTextView)).setText(data.getBiography());
-                        ((TextView) findViewById(R.id.nameTextView)).setText(data.getName());
-                        ((TextView) findViewById(R.id.birthdayTextView)).setText(data.getBirthday());
+                        biographyTextView.setText(data.getBiography());
+                        nameTextView.setText(data.getName());
+                        birthdayTextView.setText(data.getBirthday());
                         Glide.with(MainActivity.this)
                                 .load(getString(R.string.image_url) + data.getProfilePath())
-                                .into((ImageView) findViewById(R.id.profileImageView));
+                                .into(profileImageView);
                     }
                 });
             }
