@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
     public NicMovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.list_item_nic_movie, parent, false);
+                .inflate(R.layout.list_item_nic_movie_card, parent, false);
         return new NicMovieViewHolder(view);
     }
 
@@ -43,7 +44,7 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
 
         holder.releaseDateTextView.setText(movie.getReleaseDate());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.similarMoviesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SimilarMoviesActivity.class);
@@ -62,12 +63,14 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
         private ImageView posterImageView;
         private TextView titleTextView;
         private TextView releaseDateTextView;
+        private Button similarMoviesButton;
 
         public NicMovieViewHolder(View itemView) {
             super(itemView);
             posterImageView = (ImageView)itemView.findViewById(R.id.posterImageView);
             titleTextView = (TextView)itemView.findViewById(R.id.titleTextView);
             releaseDateTextView = (TextView)itemView.findViewById(R.id.releaseDateTextView);
+            similarMoviesButton = (Button)itemView.findViewById(R.id.similarMoviesButton);
         }
     }
 }

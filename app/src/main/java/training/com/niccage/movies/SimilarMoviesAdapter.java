@@ -47,16 +47,16 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
             case NORMAL_ITEM_TYPE:
                 return new SimilarMovieViewHolder(LayoutInflater
                         .from(parent.getContext())
-                        .inflate(R.layout.list_item_nic_movie, parent, false));
+                        .inflate(R.layout.list_item_movie_card, parent, false));
             case LOADING_ITEM_TYPE:
                 return new LoadingMoreViewHolder(LayoutInflater
                         .from(parent.getContext())
-                        .inflate(R.layout.list_item_loading_more, parent, false));
+                        .inflate(R.layout.list_item_loading_more_card, parent, false));
             case NO_MORE_ITEMS_ITEM_TYPE:
             default:
                 return new NoMoreItemsViewHolder(LayoutInflater
                         .from(parent.getContext())
-                        .inflate(R.layout.list_item_no_more, parent, false));
+                        .inflate(R.layout.list_item_no_more_card, parent, false));
         }
     }
 
