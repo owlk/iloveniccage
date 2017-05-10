@@ -1,6 +1,7 @@
 package training.com.niccage.movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +32,8 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
     }
 
     @Override
-    public void onBindViewHolder(NicMovieViewHolder holder, int position) {
-        NicCageMovie movie = cast.get(position);
+    public void onBindViewHolder(final NicMovieViewHolder holder, int position) {
+        final NicCageMovie movie = cast.get(position);
 
         Context context = holder.posterImageView.getContext();
         String posterUrl = context.getString(R.string.image_url) + movie.getPosterPath();
@@ -41,6 +42,17 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
         holder.titleTextView.setText(movie.getTitle());
 
         holder.releaseDateTextView.setText(movie.getReleaseDate());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SimilarMoviesActivity.class);
+                intent.putExtra("movieId", movie.getId());
+                v.getContext().startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override

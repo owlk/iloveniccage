@@ -32,6 +32,7 @@ public class NicsMoviesActivity extends AppCompatActivity {
                 public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
                     NicCageCache.setNicCageMovies(response.body());
                     mRecyclerView.setAdapter(new NicMovieAdapter(response.body().getCast()));
+
                 }
 
                 @Override

@@ -9,6 +9,9 @@ public class NicCageMovie {
     private String title;
     @SerializedName("release_date")
     private String releaseDate;
+    @SerializedName("id")
+    private Integer id;
+
 
     public String getPosterPath() {
         return posterPath;
@@ -21,4 +24,9 @@ public class NicCageMovie {
     public String getReleaseDate() {
         return releaseDate;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
 }
