@@ -7,12 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import training.com.niccage.NicApplication;
 import training.com.niccage.R;
 import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.rest.model.NicCageMoviesList;
 
 public class NicsMoviesActivity extends AppCompatActivity {
+
+    @BindView(R.id.nicRecyclerView)
+    RecyclerView mRecyclerView;
+
     private int getColumnCount() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 2;
     }
@@ -20,9 +26,10 @@ public class NicsMoviesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nics_movies);
 
-        final RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.nicRecyclerView);
+        setContentView(R.layout.activity_nics_movies);
+        ButterKnife.bind(this);
+
         mRecyclerView.setHasFixedSize(true);
         GridLayoutManager mLayoutManager = new GridLayoutManager(this, getColumnCount());
         mRecyclerView.setLayoutManager(mLayoutManager);
