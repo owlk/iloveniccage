@@ -19,7 +19,9 @@ public class SimilarMoviesActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
 
     private int getColumnCount() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 2;
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+                ? 1
+                : 2;
     }
 
     @Override
@@ -28,8 +30,6 @@ public class SimilarMoviesActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_similar_movies);
         ButterKnife.bind(this);
-
-        final Integer movieId = getIntent().getExtras().getInt("movieId");
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
@@ -43,6 +43,7 @@ public class SimilarMoviesActivity extends AppCompatActivity {
             }
         });
 
+        final Integer movieId = getIntent().getExtras().getInt("movieId");
         adapter.setPaginationListener(new SimilarMoviesAdapter.PaginationListener() {
             @Override
             public void lastItemReached(int page) {

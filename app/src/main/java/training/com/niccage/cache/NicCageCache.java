@@ -85,11 +85,13 @@ public class NicCageCache {
         similarMoviesSubscriber = null;
     }
 
-    public void loadSimilarMovies(final Integer movieId) {
+    public void loadSimilarMovies(Integer movieId) {
         if (similarMoviesSubscriber != null) {
             SimilarMovies similarMovies = similarMoviesCache.get(movieId);
             if (similarMovies != null) {
                 similarMoviesSubscriber.call(similarMovies);
+            } else {
+                loadMoreSimilarMovies(movieId);
             }
         }
     }
