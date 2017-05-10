@@ -31,7 +31,26 @@ public class SimilarMoviesActivity extends AppCompatActivity {
         NicCageAPI.API.getSimilarMovies(movieId, null, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
             @Override
             public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
-                mRecyclerView.setAdapter(new SimilarMoviesAdapter(response.body().getResults()));
+                final SimilarMoviesAdapter adapter = new SimilarMoviesAdapter(response.body());
+
+                adapter.setPaginationListener(new SimilarMoviesAdapter.PaginationListener() {
+                    @Override
+                    public void lastItemReached(int page) {
+                        NicCageAPI.API.getSimilarMovies(movieId, ++page, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
+                            @Override
+                            public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
+                                adapter.addNextPage(response.body());
+                            }
+
+                            @Override
+                            public void onFailure(Call<SimilarMovies> call, Throwable t) {
+
+                            }
+                        });
+
+                    }
+                });
+                mRecyclerView.setAdapter(adapter);
             }
 
             @Override

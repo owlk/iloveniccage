@@ -11,16 +11,22 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import training.com.niccage.R;
+import training.com.niccage.rest.model.SimilarMovies;
 import training.com.niccage.rest.model.TmdbMovie;
 
 public class SimilarMoviesAdapter extends RecyclerView.Adapter<SimilarMoviesAdapter.SimilarMovieViewHolder> {
-    private final List<TmdbMovie> movies;
+    private final List<TmdbMovie> movies = new LinkedList<>();
+    private final int totalPages;
+    private int page = 0;
+    private PaginationListener paginationListener;
 
-    public SimilarMoviesAdapter(List<TmdbMovie> movies) {
-        this.movies = movies;
+    public SimilarMoviesAdapter(SimilarMovies movies) {
+        this.movies.addAll(movies.getResults());
+        totalPages = movies.getTotalPages();
     }
 
     @Override
@@ -44,13 +50,29 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<SimilarMoviesAdap
         holder.releaseDateTextView.setText(movie.getReleaseDate());
 
         if (position == movies.size() - 1) {
-            Toast.makeText(holder.posterImageView.getContext(), "Last item reached", Toast.LENGTH_SHORT).show();
+
+            if(page == totalPages) {
+                Toast.makeText(holder.posterImageView.getContext(), "Last item reached", Toast.LENGTH_SHORT).show();
+            } else {
+                paginationListener.lastItemReached(page);
+            }
+
         }
     }
 
     @Override
     public int getItemCount() {
         return movies.size();
+    }
+
+    public void setPaginationListener(PaginationListener paginationListener) {
+        this.paginationListener = paginationListener;
+    }
+
+    public void addNextPage(SimilarMovies newMovies) {
+        movies.addAll(newMovies.getResults());
+        page++;
+        notifyDataSetChanged();
     }
 
     public static class SimilarMovieViewHolder extends RecyclerView.ViewHolder {
@@ -64,5 +86,11 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<SimilarMoviesAdap
             titleTextView = (TextView)itemView.findViewById(R.id.titleTextView);
             releaseDateTextView = (TextView)itemView.findViewById(R.id.releaseDateTextView);
         }
+    }
+
+    public interface PaginationListener {
+
+        void lastItemReached(int page);
+
     }
 }
