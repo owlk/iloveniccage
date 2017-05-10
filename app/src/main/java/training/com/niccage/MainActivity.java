@@ -9,14 +9,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.movies.NicsMoviesActivity;
 import training.com.niccage.rest.model.NicCageDetails;
-
-import static training.com.niccage.rest.NicCageAPI.API;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,24 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
         final NicCageCache cache = ((NickApplication) getApplication()).getCache();
 
-        NicCageDetails nicCageDetails = cache.getNicCageDetails();
-        if (nicCageDetails == null) {
-            API.getNickCage().enqueue(new Callback<NicCageDetails>() {
-                @Override
-                public void onResponse(Call<NicCageDetails> call, Response<NicCageDetails> response) {
-                    final NicCageDetails nicCageDetails = response.body();
-                    cache.setNicCageDetails(nicCageDetails);
-                    setDetails(nicCageDetails);
-                }
-
-                @Override
-                public void onFailure(Call<NicCageDetails> call, Throwable t) {
-
-                }
-            });
-        } else {
-            setDetails(nicCageDetails);
-        }
+        cache.getNicCageDetails(new NicCageCache.nicCageCacheCallback<NicCageDetails>() {
+            @Override
+            public void call(NicCageDetails data) {
+                setDetails(data);
+            }
+        });
     }
 
     private void setDetails(final NicCageDetails nicCageDetails) {

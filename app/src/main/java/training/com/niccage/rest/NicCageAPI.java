@@ -12,7 +12,6 @@ import training.com.niccage.rest.model.NicCageMoviesList;
 import training.com.niccage.rest.model.SimilarMovies;
 
 public interface NicCageAPI {
-
     NicCageAPI API = new Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -26,7 +25,8 @@ public interface NicCageAPI {
     Call<NicCageMoviesList> getNicMovies();
 
     @GET("movie/{movie_id}/similar")
-    Call<SimilarMovies> getSimilarMovies(@Path("movie_id") int movieId, @Query("page") Integer page, @Query("api_key") String apiKey);
-
-
+    Call<SimilarMovies> getSimilarMovies(
+            @Path("movie_id") int movieId,
+            @Query("page") Integer page,
+            @Query("api_key") String apiKey);
 }
