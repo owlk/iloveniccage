@@ -18,6 +18,7 @@ import training.com.niccage.activity.movies.NicCageMoviesActivity;
 import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.rest.model.NicCageDetails;
 
+
 public class NicCageDetailsActivity extends AppCompatActivity {
     @BindView(R.id.biographyTextView)
     TextView biographyTextView;

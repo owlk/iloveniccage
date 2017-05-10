@@ -6,11 +6,12 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import training.com.niccage.BuildConfig;
 import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMovies;
 import training.com.niccage.rest.model.SimilarMovies;
+
+import static training.com.niccage.rest.NicCageAPI.API_KEY;
 
 public class NicCageCache {
     private NicCageDetails nicCageDetails;
@@ -103,7 +104,7 @@ public class NicCageCache {
 
             int page = similarMovies == null ? 1 : similarMovies.getPage() + 1;
             NicCageAPI.API
-                    .getSimilarMovies(movieId, page, BuildConfig.API_KEY)
+                    .getSimilarMovies(movieId, page, API_KEY)
                     .enqueue(new Callback<SimilarMovies>() {
                         @Override
                         public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
