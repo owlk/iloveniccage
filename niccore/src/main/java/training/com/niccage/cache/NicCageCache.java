@@ -6,15 +6,15 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import training.com.niccage.rest.NicCageApis;
+import training.com.niccage.rest.NicCageApi;
 import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMovies;
 import training.com.niccage.rest.model.SimilarMovies;
 
-import static training.com.niccage.rest.NicCageApis.API_KEY;
+import static training.com.niccage.rest.NicCageApi.API_KEY;
 
 public class NicCageCache {
-    private final NicCageApis nicCageApi;
+    private final NicCageApi nicCageApi;
 
     private NicCageDetails nicCageDetails;
     private Subscriber<NicCageDetails> nicCageDetailsSubscriber;
@@ -25,7 +25,7 @@ public class NicCageCache {
     private Map<Integer, SimilarMovies> similarMoviesCache = new HashMap<>();
     private Subscriber<SimilarMovies> similarMoviesSubscriber;
 
-    public NicCageCache(NicCageApis nicCageApi) {
+    public NicCageCache(NicCageApi nicCageApi) {
         this.nicCageApi = nicCageApi;
     }
 

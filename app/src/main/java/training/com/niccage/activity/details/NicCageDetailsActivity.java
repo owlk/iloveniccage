@@ -16,7 +16,7 @@ import training.com.niccage.NicCageApplication;
 import training.com.niccage.R;
 import training.com.niccage.activity.movies.NicCageMoviesActivity;
 import training.com.niccage.cache.NicCageCache;
-import training.com.niccage.rest.NicCageApis;
+import training.com.niccage.rest.NicCageApi;
 import training.com.niccage.rest.model.NicCageDetails;
 
 
@@ -57,7 +57,7 @@ public class NicCageDetailsActivity extends AppCompatActivity {
                         nameTextView.setText(data.getName());
                         birthdayTextView.setText(data.getBirthday());
                         Glide.with(NicCageDetailsActivity.this)
-                                .load(NicCageApis.BASE_IMAGE_URL + data.getProfilePath())
+                                .load(NicCageApi.BASE_IMAGE_URL + data.getProfilePath())
                                 .into(profileImageView);
                     }
                 });

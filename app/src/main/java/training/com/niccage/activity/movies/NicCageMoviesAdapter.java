@@ -15,7 +15,7 @@ import java.util.List;
 
 import training.com.niccage.R;
 import training.com.niccage.activity.similarmovies.SimilarMoviesActivity;
-import training.com.niccage.rest.NicCageApis;
+import training.com.niccage.rest.NicCageApi;
 import training.com.niccage.rest.model.Movie;
 
 public class NicCageMoviesAdapter extends RecyclerView.Adapter<NicCageMoviesAdapter.NicMovieViewHolder> {
@@ -38,7 +38,7 @@ public class NicCageMoviesAdapter extends RecyclerView.Adapter<NicCageMoviesAdap
         final Movie movie = movies.get(position);
 
         Glide.with(holder.posterImageView.getContext())
-                .load(NicCageApis.BASE_IMAGE_URL + movie.getPosterPath())
+                .load(NicCageApi.BASE_IMAGE_URL + movie.getPosterPath())
                 .into(holder.posterImageView);
 
         holder.titleTextView.setText(movie.getTitle());

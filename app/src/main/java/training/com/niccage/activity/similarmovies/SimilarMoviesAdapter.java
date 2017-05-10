@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import training.com.niccage.R;
-import training.com.niccage.rest.NicCageApis;
+import training.com.niccage.rest.NicCageApi;
 import training.com.niccage.rest.model.Movie;
 import training.com.niccage.rest.model.SimilarMovies;
 
@@ -60,7 +60,7 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Movie movie = similarMovies.getResults().get(position);
 
                 Glide.with(smvh.posterImageView.getContext())
-                        .load(NicCageApis.BASE_IMAGE_URL + movie.getPosterPath())
+                        .load(NicCageApi.BASE_IMAGE_URL + movie.getPosterPath())
                         .into(smvh.posterImageView);
 
                 smvh.titleTextView.setText(movie.getTitle());
