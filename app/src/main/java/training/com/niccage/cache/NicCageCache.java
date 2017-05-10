@@ -12,60 +12,90 @@ import training.com.niccage.rest.model.NicCageMoviesList;
 import training.com.niccage.rest.model.SimilarMovies;
 
 public class NicCageCache {
-    private NicCageDetails nicCageDetails = null;
-    private NicCageMoviesList nicCageMovies = null;
+    private NicCageDetails nicCageDetails;
+    private Subscriber<NicCageDetails> nicCageDetailsSubscriber;
+
+    private NicCageMoviesList nicCageMoviesList;
+    private Subscriber<NicCageMoviesList> nicCageMoviesListSubscriber;
 
     private LruCache<Integer, SimilarMovies> similarMoviesCache = new LruCache<>(1024 * 1024 * 4);
-    private NicCageCacheCallback<SimilarMovies> similarMoviesListener;
+    private Subscriber<SimilarMovies> similarMoviesSubscriber;
 
-    public void getNicCageDetails(final NicCageCacheCallback<NicCageDetails> callback) {
-        if (nicCageDetails == null) {
-            NicCageAPI.API.getNickCage().enqueue(new Callback<NicCageDetails>() {
-                @Override
-                public void onResponse(Call<NicCageDetails> call, Response<NicCageDetails> response) {
-                    nicCageDetails = response.body();
-                    callback.call(nicCageDetails);
-                }
+    public void subscribeToNicCageDetails(Subscriber<NicCageDetails> callback) {
+        nicCageDetailsSubscriber = callback;
+    }
 
-                @Override
-                public void onFailure(Call<NicCageDetails> call, Throwable t) { }
-            });
-        } else {
-            callback.call(nicCageDetails);
+    public void ubsubscribeToNicCageDetails() {
+        nicCageDetailsSubscriber = null;
+    }
+
+    public void loadNicCageDetails() {
+        if (nicCageDetailsSubscriber != null) {
+            if (nicCageDetails == null) {
+                NicCageAPI.API.getNickCage().enqueue(new Callback<NicCageDetails>() {
+                    @Override
+                    public void onResponse(Call<NicCageDetails> call, Response<NicCageDetails> response) {
+                        nicCageDetails = response.body();
+                        nicCageDetailsSubscriber.call(nicCageDetails);
+                    }
+
+                    @Override
+                    public void onFailure(Call<NicCageDetails> call, Throwable t) {
+                    }
+                });
+            } else {
+                nicCageDetailsSubscriber.call(nicCageDetails);
+            }
         }
     }
 
-    public void getNicCageMovies(final NicCageCacheCallback<NicCageMoviesList> callback) {
-        if (nicCageMovies == null) {
-            NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
-                @Override
-                public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
-                    nicCageMovies = response.body();
-                    callback.call(nicCageMovies);
-                }
+    public void subscribeToNicCageMoviesList(Subscriber<NicCageMoviesList> subscriber) {
+        nicCageMoviesListSubscriber = subscriber;
+    }
 
-                @Override
-                public void onFailure(Call<NicCageMoviesList> call, Throwable t) { }
-            });
-        } else {
-            callback.call(nicCageMovies);
+    public void unsubscribeToNicCageMoviesList() {
+        nicCageMoviesListSubscriber = null;
+    }
+
+    public void loadNicCageMoviesList() {
+        if (nicCageMoviesListSubscriber != null) {
+            if (nicCageMoviesList == null) {
+                NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
+                    @Override
+                    public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
+                        nicCageMoviesList = response.body();
+                        nicCageMoviesListSubscriber.call(nicCageMoviesList);
+                    }
+
+                    @Override
+                    public void onFailure(Call<NicCageMoviesList> call, Throwable t) {
+                    }
+                });
+            } else {
+                nicCageMoviesListSubscriber.call(nicCageMoviesList);
+            }
         }
     }
 
-    public void subscribeToSimilarMovies(Integer movieId, NicCageCacheCallback<SimilarMovies> callback) {
-        similarMoviesListener = callback;
-        SimilarMovies similarMovies = similarMoviesCache.get(movieId);
-        if (similarMovies != null) {
-            callback.call(similarMovies);
-        }
+    public void subscribeToSimilarMovies(Subscriber<SimilarMovies> subscriber) {
+        similarMoviesSubscriber = subscriber;
     }
 
     public void unsubscribeToSimilarMovies() {
-        similarMoviesListener = null;
+        similarMoviesSubscriber = null;
+    }
+
+    public void loadSimilarMovies(final Integer movieId) {
+        if (similarMoviesSubscriber != null) {
+            SimilarMovies similarMovies = similarMoviesCache.get(movieId);
+            if (similarMovies != null) {
+                similarMoviesSubscriber.call(similarMovies);
+            }
+        }
     }
 
     public void loadMoreSimilarMovies(final Integer movieId) {
-        if (similarMoviesListener != null) {
+        if (similarMoviesSubscriber != null) {
             SimilarMovies similarMovies = similarMoviesCache.get(movieId);
 
             int page = similarMovies == null ? 1 : similarMovies.getPage() + 1;
@@ -75,7 +105,7 @@ public class NicCageCache {
                         @Override
                         public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
                             similarMoviesCache.put(movieId, response.body());
-                            similarMoviesListener.call(response.body());
+                            similarMoviesSubscriber.call(response.body());
                         }
 
                         @Override
@@ -84,7 +114,7 @@ public class NicCageCache {
         }
     }
 
-    public interface NicCageCacheCallback<T> {
+    public interface Subscriber<T> {
         void call(T data);
     }
 }

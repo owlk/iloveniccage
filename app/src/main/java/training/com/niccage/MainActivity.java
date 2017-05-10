@@ -14,7 +14,6 @@ import training.com.niccage.movies.NicsMoviesActivity;
 import training.com.niccage.rest.model.NicCageDetails;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,27 +26,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final NicCageCache cache = ((NicApplication) getApplication()).getCache();
-
-        cache.getNicCageDetails(new NicCageCache.NicCageCacheCallback<NicCageDetails>() {
+        NicCageCache cache = ((NicApplication) getApplication()).getCache();
+        cache.subscribeToNicCageDetails(new NicCageCache.Subscriber<NicCageDetails>() {
             @Override
-            public void call(NicCageDetails data) {
-                setDetails(data);
+            public void call(final NicCageDetails data) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((TextView) findViewById(R.id.biographyTextView)).setText(data.getBiography());
+                        ((TextView) findViewById(R.id.nameTextView)).setText(data.getName());
+                        ((TextView) findViewById(R.id.birthdayTextView)).setText(data.getBirthday());
+                        Glide.with(MainActivity.this)
+                                .load(getString(R.string.image_url) + data.getProfilePath())
+                                .into((ImageView) findViewById(R.id.profileImageView));
+                    }
+                });
             }
         });
+
+        cache.loadNicCageDetails();
     }
 
-    private void setDetails(final NicCageDetails nicCageDetails) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((TextView) findViewById(R.id.biographyTextView)).setText(nicCageDetails.getBiography());
-                ((TextView) findViewById(R.id.nameTextView)).setText(nicCageDetails.getName());
-                ((TextView) findViewById(R.id.birthdayTextView)).setText(nicCageDetails.getBirthday());
-                Glide.with(MainActivity.this)
-                        .load(getString(R.string.image_url) + nicCageDetails.getProfilePath())
-                        .into((ImageView) findViewById(R.id.profileImageView));
-            }
-        });
+    @Override
+    protected void onDestroy() {
+        ((NicApplication) getApplication()).getCache().ubsubscribeToNicCageDetails();
+        super.onDestroy();
     }
 }

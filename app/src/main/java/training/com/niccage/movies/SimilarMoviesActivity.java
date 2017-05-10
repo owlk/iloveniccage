@@ -36,7 +36,7 @@ public class SimilarMoviesActivity extends AppCompatActivity {
 
         final SimilarMoviesAdapter adapter = new SimilarMoviesAdapter();
         final NicCageCache cache = ((NicApplication) getApplication()).getCache();
-        cache.subscribeToSimilarMovies(movieId, new NicCageCache.NicCageCacheCallback<SimilarMovies>() {
+        cache.subscribeToSimilarMovies(new NicCageCache.Subscriber<SimilarMovies>() {
             @Override
             public void call(SimilarMovies data) {
                 adapter.addNextPage(data);
@@ -51,10 +51,7 @@ public class SimilarMoviesActivity extends AppCompatActivity {
         });
 
         mRecyclerView.setAdapter(adapter);
-
-        if (adapter.getItemCount() == 0) {
-            cache.loadMoreSimilarMovies(movieId);
-        }
+        cache.loadSimilarMovies(movieId);
     }
 
     @Override
