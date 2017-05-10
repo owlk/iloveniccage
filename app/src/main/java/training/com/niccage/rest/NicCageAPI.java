@@ -5,6 +5,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import training.com.niccage.BuildConfig;
 import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMoviesList;
@@ -24,8 +25,8 @@ public interface NicCageAPI {
     @GET("person/2963/movie_credits?api_key=" + BuildConfig.API_KEY)
     Call<NicCageMoviesList> getNicMovies();
 
-    @GET("movie/{movie_id}/similar?api_key=" + BuildConfig.API_KEY)
-    Call<SimilarMovies> getSimilarMovies(@Path("movie_id") int movieId);
+    @GET("movie/{movie_id}/similar")
+    Call<SimilarMovies> getSimilarMovies(@Path("movie_id") int movieId, @Query("page") Integer page, @Query("api_key") String apiKey);
 
 
 }
