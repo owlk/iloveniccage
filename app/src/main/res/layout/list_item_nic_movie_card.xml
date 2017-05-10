@@ -22,6 +22,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/posterImageView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="h,1:1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@android:color/transparent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:background="#80444444"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/titleTextView"
+                app:layout_constraintVertical_bias="0.0" />
+
             <Button
                 android:id="@+id/similarMoviesButton"
                 style="@android:style/Widget.Material.Button.Borderless"
@@ -29,47 +58,38 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:text="Similar Movies"
                 android:textAppearance="@android:style/TextAppearance.Material.Button"
+                android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/posterImageView"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <ImageView
-                android:id="@+id/posterImageView"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:color/transparent" />
-
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="24dp"
-                android:text="Title"
-                android:textAppearance="@android:style/TextAppearance.Material.Large"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/posterImageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toLeftOf="parent" />
 
             <TextView
                 android:id="@+id/releaseDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:text="Release Date"
-                android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+                android:textAppearance="@android:style/TextAppearance.Material.Medium.Inverse"
+                app:layout_constraintBottom_toTopOf="@+id/similarMoviesButton"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
+                android:paddingTop="24dp"
+                android:text="Title"
+                android:textAppearance="@android:style/TextAppearance.Material.Large.Inverse"
+                app:layout_constraintBottom_toTopOf="@+id/releaseDateTextView"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>

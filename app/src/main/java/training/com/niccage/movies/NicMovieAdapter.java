@@ -63,12 +63,14 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
         private ImageView posterImageView;
         private TextView titleTextView;
         private TextView releaseDateTextView;
+        private Button similarMoviesButton;
 
         public NicMovieViewHolder(View itemView) {
             super(itemView);
-            posterImageView = (ImageView)itemView.findViewById(R.id.posterImageView);
-            titleTextView = (TextView)itemView.findViewById(R.id.titleTextView);
-            releaseDateTextView = (TextView)itemView.findViewById(R.id.releaseDateTextView);
+            posterImageView = (ImageView) itemView.findViewById(R.id.posterImageView);
+            titleTextView = (TextView) itemView.findViewById(R.id.titleTextView);
+            releaseDateTextView = (TextView) itemView.findViewById(R.id.releaseDateTextView);
+            similarMoviesButton = (Button) itemView.findViewById(R.id.similarMoviesButton);
         }
     }
 }
