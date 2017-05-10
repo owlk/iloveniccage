@@ -52,34 +52,21 @@ public class NicCageCache {
         }
     }
 
-    public void subscribe(final Integer movieId, NicCageCacheCallback<SimilarMovies> callback) {
+    public void subscribeToSimilarMovies(NicCageCacheCallback<SimilarMovies> callback) {
         similarMoviesListener = callback;
+    }
 
-        final SimilarMovies similarMovies = similarMoviesCache.get(movieId);
-        if (similarMovies == null) {
-            NicCageAPI.API
-                    .getSimilarMovies(movieId, 1, BuildConfig.API_KEY)
-                    .enqueue(new Callback<SimilarMovies>() {
-                        @Override
-                        public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
-                            similarMoviesCache.put(movieId, response.body());
-                            similarMoviesListener.call(response.body());
-                        }
-
-                        @Override
-                        public void onFailure(Call<SimilarMovies> call, Throwable t) { }
-                    });
-        } else {
-            similarMoviesListener.call(similarMovies);
-        }
+    public void unsubscribeToSimilarMovies() {
+        similarMoviesListener = null;
     }
 
     public void loadMoreSimilarMovies(final Integer movieId) {
         if (similarMoviesListener != null) {
             SimilarMovies similarMovies = similarMoviesCache.get(movieId);
 
+            int page = similarMovies == null ? 1 : similarMovies.getPage() + 1;
             NicCageAPI.API
-                    .getSimilarMovies(movieId, similarMovies.getPage() + 1, BuildConfig.API_KEY)
+                    .getSimilarMovies(movieId, page, BuildConfig.API_KEY)
                     .enqueue(new Callback<SimilarMovies>() {
                         @Override
                         public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
