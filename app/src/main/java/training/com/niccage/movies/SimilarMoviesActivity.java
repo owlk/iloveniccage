@@ -5,14 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import training.com.niccage.BuildConfig;
+import training.com.niccage.NicApplication;
 import training.com.niccage.R;
-import training.com.niccage.rest.NicCageAPI;
+import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.rest.model.SimilarMovies;
-
 
 public class SimilarMoviesActivity extends AppCompatActivity {
 
@@ -21,40 +17,26 @@ public class SimilarMoviesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_similar_movies);
 
-        final int movieId = getIntent().getExtras().getInt("movieId");
+        final Integer movieId = getIntent().getExtras().getInt("movieId");
 
         final RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.similarRecyclerView);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final  SimilarMoviesAdapter adapter = new SimilarMoviesAdapter();
-        adapter.setPaginationListener(new SimilarMoviesAdapter.PaginationListener() {
+        final SimilarMoviesAdapter adapter = new SimilarMoviesAdapter();
+        final NicCageCache cache = ((NicApplication) getApplication()).getCache();
+        cache.subscribe(movieId, new NicCageCache.NicCageCacheCallback<SimilarMovies>() {
             @Override
-            public void lastItemReached(int page) {
-                NicCageAPI.API.getSimilarMovies(movieId, page, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
-                    @Override
-                    public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
-                        adapter.addNextPage(response.body());
-                    }
-
-                    @Override
-                    public void onFailure(Call<SimilarMovies> call, Throwable t) {
-
-                    }
-                });
+            public void call(SimilarMovies data) {
+                adapter.addNextPage(data);
             }
         });
 
-        NicCageAPI.API.getSimilarMovies(movieId, 1, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
+        adapter.setPaginationListener(new SimilarMoviesAdapter.PaginationListener() {
             @Override
-            public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
-                adapter.addNextPage(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<SimilarMovies> call, Throwable t) {
-
+            public void lastItemReached(int page) {
+                cache.loadMoreSimilarMovies(movieId);
             }
         });
 

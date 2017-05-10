@@ -6,13 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import training.com.niccage.NicApplication;
 import training.com.niccage.R;
 import training.com.niccage.cache.NicCageCache;
-import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageMoviesList;
 
 public class NicsMoviesActivity extends AppCompatActivity {
@@ -28,7 +24,7 @@ public class NicsMoviesActivity extends AppCompatActivity {
 
         final NicCageCache cache = ((NicApplication) getApplication()).getCache();
 
-        cache.getNicCageMovies(new NicCageCache.nicCageCacheCallback<NicCageMoviesList>() {
+        cache.getNicCageMovies(new NicCageCache.NicCageCacheCallback<NicCageMoviesList>() {
             @Override
             public void call(final NicCageMoviesList data) {
                 NicsMoviesActivity.this.runOnUiThread(new Runnable() {
