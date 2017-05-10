@@ -1,6 +1,5 @@
 package training.com.niccage.movies;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,15 +12,15 @@ import training.com.niccage.R;
 import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.rest.model.SimilarMovies;
 
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
 public class SimilarMoviesActivity extends AppCompatActivity {
 
     @BindView(R.id.similarRecyclerView)
-    RecyclerView mRecyclerView;
+    RecyclerView similarRecyclerView;
 
     private int getColumnCount() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
-                ? 1
-                : 2;
+        return getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT ? 1 : 2;
     }
 
     @Override
@@ -31,8 +30,8 @@ public class SimilarMoviesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_similar_movies);
         ButterKnife.bind(this);
 
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
+        similarRecyclerView.setHasFixedSize(true);
+        similarRecyclerView.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
 
         final SimilarMoviesAdapter adapter = new SimilarMoviesAdapter();
         final NicCageCache cache = ((NicApplication) getApplication()).getCache();
@@ -51,7 +50,7 @@ public class SimilarMoviesActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView.setAdapter(adapter);
+        similarRecyclerView.setAdapter(adapter);
         cache.loadSimilarMovies(movieId);
     }
 
