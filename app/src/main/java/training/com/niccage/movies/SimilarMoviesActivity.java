@@ -28,29 +28,28 @@ public class SimilarMoviesActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        NicCageAPI.API.getSimilarMovies(movieId, null, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
+        final  SimilarMoviesAdapter adapter = new SimilarMoviesAdapter();
+        adapter.setPaginationListener(new SimilarMoviesAdapter.PaginationListener() {
             @Override
-            public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
-                final SimilarMoviesAdapter adapter = new SimilarMoviesAdapter(response.body());
-
-                adapter.setPaginationListener(new SimilarMoviesAdapter.PaginationListener() {
+            public void lastItemReached(int page) {
+                NicCageAPI.API.getSimilarMovies(movieId, page, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
                     @Override
-                    public void lastItemReached(int page) {
-                        NicCageAPI.API.getSimilarMovies(movieId, ++page, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
-                            @Override
-                            public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
-                                adapter.addNextPage(response.body());
-                            }
+                    public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
+                        adapter.addNextPage(response.body());
+                    }
 
-                            @Override
-                            public void onFailure(Call<SimilarMovies> call, Throwable t) {
-
-                            }
-                        });
+                    @Override
+                    public void onFailure(Call<SimilarMovies> call, Throwable t) {
 
                     }
                 });
-                mRecyclerView.setAdapter(adapter);
+            }
+        });
+
+        NicCageAPI.API.getSimilarMovies(movieId, 1, BuildConfig.API_KEY).enqueue(new Callback<SimilarMovies>() {
+            @Override
+            public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
+                adapter.addNextPage(response.body());
             }
 
             @Override
@@ -58,5 +57,7 @@ public class SimilarMoviesActivity extends AppCompatActivity {
 
             }
         });
+
+        mRecyclerView.setAdapter(adapter);
     }
 }

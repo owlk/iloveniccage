@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import training.com.niccage.R;
 import training.com.niccage.rest.model.SimilarMovies;
 import training.com.niccage.rest.model.TmdbMovie;
@@ -22,20 +19,15 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final int LOADING_ITEM_TYPE = 2;
     private static final int NO_MORE_ITEMS_ITEM_TYPE = 3;
 
-    private final List<TmdbMovie> movies = new LinkedList<>();
-    private final int totalPages;
-    private int page = 0;
+    private final SimilarMovies similarMovies = new SimilarMovies();
     private PaginationListener paginationListener;
-
-    public SimilarMoviesAdapter(SimilarMovies movies) {
-        this.movies.addAll(movies.getResults());
-        totalPages = movies.getTotalPages();
-    }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == movies.size() - 1) {
-            return page == totalPages ? NO_MORE_ITEMS_ITEM_TYPE : LOADING_ITEM_TYPE;
+        if (position == similarMovies.getResults().size() - 1) {
+            return similarMovies.getPage().equals(similarMovies.getTotalPages())
+                    ? NO_MORE_ITEMS_ITEM_TYPE
+                    : LOADING_ITEM_TYPE;
         } else {
             return NORMAL_ITEM_TYPE;
         }
@@ -65,7 +57,7 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (holder.getItemViewType()) {
             case NORMAL_ITEM_TYPE:
                 SimilarMovieViewHolder smvh = (SimilarMovieViewHolder)holder;
-                TmdbMovie movie = movies.get(position);
+                TmdbMovie movie = similarMovies.getResults().get(position);
 
                 Context context = smvh.posterImageView.getContext();
                 String posterUrl = context.getString(R.string.image_url) + movie.getPosterPath();
@@ -76,7 +68,7 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
                 smvh.releaseDateTextView.setText(movie.getReleaseDate());
                 break;
             case LOADING_ITEM_TYPE:
-                paginationListener.lastItemReached(page);
+                paginationListener.lastItemReached(similarMovies.getPage() + 1);
                 break;
             case NO_MORE_ITEMS_ITEM_TYPE:
                 break;
@@ -85,7 +77,7 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        return similarMovies.getResults().size();
     }
 
     public void setPaginationListener(PaginationListener paginationListener) {
@@ -93,9 +85,13 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void addNextPage(SimilarMovies newMovies) {
-        movies.addAll(newMovies.getResults());
-        page++;
-        notifyDataSetChanged();
+        if (newMovies != null && newMovies.getResults() != null) {
+            similarMovies.getResults().addAll(newMovies.getResults());
+            similarMovies.setPage(newMovies.getPage());
+            similarMovies.setTotalPages(newMovies.getTotalPages());
+            similarMovies.setTotalResults(newMovies.getTotalResults());
+            notifyDataSetChanged();
+        }
     }
 
     private static class SimilarMovieViewHolder extends RecyclerView.ViewHolder {
