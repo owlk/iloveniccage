@@ -34,7 +34,7 @@ public class NicCageDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_nic_cage_details);
         ButterKnife.bind(this);
 
         nicMoviesButton.setOnClickListener(new View.OnClickListener() {
