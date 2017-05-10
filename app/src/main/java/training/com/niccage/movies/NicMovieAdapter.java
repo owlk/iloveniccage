@@ -14,13 +14,13 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import training.com.niccage.R;
-import training.com.niccage.rest.model.NicCageMovie;
+import training.com.niccage.rest.model.TmdbMovie;
 
 public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMovieViewHolder> {
-    private final List<NicCageMovie> cast;
+    private final List<TmdbMovie> movies;
 
-    public NicMovieAdapter(List<NicCageMovie> cast) {
-        this.cast = cast;
+    public NicMovieAdapter(List<TmdbMovie> movies) {
+        this.movies = movies;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
 
     @Override
     public void onBindViewHolder(final NicMovieViewHolder holder, int position) {
-        final NicCageMovie movie = cast.get(position);
+        final TmdbMovie movie = movies.get(position);
 
         Context context = holder.posterImageView.getContext();
         String posterUrl = context.getString(R.string.image_url) + movie.getPosterPath();
@@ -51,13 +51,11 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
                 v.getContext().startActivity(intent);
             }
         });
-
-
     }
 
     @Override
     public int getItemCount() {
-        return cast.size();
+        return movies.size();
     }
 
     public static class NicMovieViewHolder extends RecyclerView.ViewHolder {
@@ -65,11 +63,11 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
         private TextView titleTextView;
         private TextView releaseDateTextView;
 
-        public NicMovieViewHolder(View v) {
-            super(v);
-            posterImageView = (ImageView)v.findViewById(R.id.posterImageView);
-            titleTextView = (TextView)v.findViewById(R.id.titleTextView);
-            releaseDateTextView = (TextView)v.findViewById(R.id.releaseDateTextView);
+        public NicMovieViewHolder(View itemView) {
+            super(itemView);
+            posterImageView = (ImageView)itemView.findViewById(R.id.posterImageView);
+            titleTextView = (TextView)itemView.findViewById(R.id.titleTextView);
+            releaseDateTextView = (TextView)itemView.findViewById(R.id.releaseDateTextView);
         }
     }
 }

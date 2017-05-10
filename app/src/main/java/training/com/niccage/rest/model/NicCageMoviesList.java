@@ -6,9 +6,9 @@ import java.util.List;
 
 public class NicCageMoviesList {
     @SerializedName("cast")
-    private List<NicCageMovie> cast;
+    private List<TmdbMovie> cast;
 
-    public List<NicCageMovie> getCast() {
+    public List<TmdbMovie> getCast() {
         return cast;
     }
 }
