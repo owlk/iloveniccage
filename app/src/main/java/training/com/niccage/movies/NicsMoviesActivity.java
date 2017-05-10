@@ -1,18 +1,15 @@
 package training.com.niccage.movies;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import training.com.niccage.NicApplication;
 import training.com.niccage.R;
 import training.com.niccage.cache.NicCageCache;
-import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageMoviesList;
 
 public class NicsMoviesActivity extends AppCompatActivity {
@@ -23,7 +20,7 @@ public class NicsMoviesActivity extends AppCompatActivity {
 
         final RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.nicRecyclerView);
         mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(this, getColumnCount());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         final NicCageCache cache = ((NicApplication) getApplication()).getCache();
@@ -39,5 +36,9 @@ public class NicsMoviesActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private int getColumnCount() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 3;
     }
 }
