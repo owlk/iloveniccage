@@ -9,7 +9,7 @@ public class SimilarMovies {
     @SerializedName("page")
     private Integer page = 0;
     @SerializedName("results")
-    private List<TmdbMovie> results = new ArrayList<>();
+    private List<Movie> results = new ArrayList<>();
     @SerializedName("total_pages")
     private Integer totalPages = 0;
     @SerializedName("total_results")
@@ -23,7 +23,7 @@ public class SimilarMovies {
         this.page = page;
     }
 
-    public List<TmdbMovie> getResults() {
+    public List<Movie> getResults() {
         return results;
     }
 

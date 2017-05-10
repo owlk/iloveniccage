@@ -1,4 +1,4 @@
-package training.com.niccage.movies;
+package training.com.niccage.activity.similarmovies;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 
 import training.com.niccage.R;
 import training.com.niccage.rest.model.SimilarMovies;
-import training.com.niccage.rest.model.TmdbMovie;
+import training.com.niccage.rest.model.Movie;
 
 public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int NORMAL_ITEM_TYPE = 1;
@@ -57,7 +57,7 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (holder.getItemViewType()) {
             case NORMAL_ITEM_TYPE:
                 SimilarMovieViewHolder smvh = (SimilarMovieViewHolder)holder;
-                TmdbMovie movie = similarMovies.getResults().get(position);
+                Movie movie = similarMovies.getResults().get(position);
 
                 Context context = smvh.posterImageView.getContext();
                 String posterUrl = context.getString(R.string.image_url) + movie.getPosterPath();

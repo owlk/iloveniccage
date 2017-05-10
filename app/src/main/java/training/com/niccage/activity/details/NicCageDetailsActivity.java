@@ -1,4 +1,4 @@
-package training.com.niccage;
+package training.com.niccage.activity.details;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,13 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import training.com.niccage.NicCageApplication;
+import training.com.niccage.R;
+import training.com.niccage.activity.movies.NicCageMoviesActivity;
 import training.com.niccage.cache.NicCageCache;
-import training.com.niccage.movies.NicsMoviesActivity;
 import training.com.niccage.rest.model.NicCageDetails;
 
-public class MainActivity extends AppCompatActivity {
+public class NicCageDetailsActivity extends AppCompatActivity {
     @BindView(R.id.biographyTextView)
     TextView biographyTextView;
     @BindView(R.id.birthdayTextView)
@@ -38,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
         nicMoviesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.startActivity(new Intent(MainActivity.this, NicsMoviesActivity.class));
+                NicCageDetailsActivity.this.startActivity(new Intent(NicCageDetailsActivity.this, NicCageMoviesActivity.class));
             }
         });
 
-        NicCageCache cache = ((NicApplication) getApplication()).getCache();
+        NicCageCache cache = ((NicCageApplication) getApplication()).getCache();
         cache.subscribeToNicCageDetails(new NicCageCache.Subscriber<NicCageDetails>() {
             @Override
             public void call(final NicCageDetails data) {
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         biographyTextView.setText(data.getBiography());
                         nameTextView.setText(data.getName());
                         birthdayTextView.setText(data.getBirthday());
-                        Glide.with(MainActivity.this)
+                        Glide.with(NicCageDetailsActivity.this)
                                 .load(getString(R.string.image_url) + data.getProfilePath())
                                 .into(profileImageView);
                     }
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        ((NicApplication) getApplication()).getCache().ubsubscribeToNicCageDetails();
+        ((NicCageApplication) getApplication()).getCache().ubsubscribeToNicCageDetails();
         super.onDestroy();
     }
 }

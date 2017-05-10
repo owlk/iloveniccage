@@ -2,7 +2,7 @@ package training.com.niccage.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TmdbMovie {
+public class Movie {
     @SerializedName("id")
     private Integer id;
     @SerializedName("poster_path")

@@ -11,17 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="training.com.niccage.NicApplication">
+        android:name="training.com.niccage.NicCageApplication">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.details.NicCageDetailsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".movies.NicsMoviesActivity" />
-        <activity android:name=".movies.SimilarMoviesActivity"></activity>
+        <activity android:name=".activity.movies.NicCageMoviesActivity" />
+        <activity android:name=".activity.similarmovies.SimilarMoviesActivity"></activity>
     </application>
 
 </manifest>

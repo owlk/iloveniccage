@@ -4,7 +4,7 @@ import android.app.Application;
 
 import training.com.niccage.cache.NicCageCache;
 
-public class NicApplication extends Application {
+public class NicCageApplication extends Application {
 
     private final NicCageCache cache = new NicCageCache();
 

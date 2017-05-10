@@ -1,4 +1,4 @@
-package training.com.niccage.movies;
+package training.com.niccage.activity.similarmovies;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import training.com.niccage.NicApplication;
+import training.com.niccage.NicCageApplication;
 import training.com.niccage.R;
 import training.com.niccage.cache.NicCageCache;
 import training.com.niccage.rest.model.SimilarMovies;
@@ -34,7 +34,7 @@ public class SimilarMoviesActivity extends AppCompatActivity {
         similarRecyclerView.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
 
         final SimilarMoviesAdapter adapter = new SimilarMoviesAdapter();
-        final NicCageCache cache = ((NicApplication) getApplication()).getCache();
+        final NicCageCache cache = ((NicCageApplication) getApplication()).getCache();
         cache.subscribeToSimilarMovies(new NicCageCache.Subscriber<SimilarMovies>() {
             @Override
             public void call(SimilarMovies data) {
@@ -56,7 +56,7 @@ public class SimilarMoviesActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        ((NicApplication) getApplication()).getCache().unsubscribeToSimilarMovies();
+        ((NicCageApplication) getApplication()).getCache().unsubscribeToSimilarMovies();
         super.onDestroy();
     }
 }

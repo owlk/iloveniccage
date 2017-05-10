@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class NicCageMoviesList {
+public class NicCageMovies {
     @SerializedName("cast")
-    private List<TmdbMovie> cast;
+    private List<Movie> cast;
 
-    public List<TmdbMovie> getCast() {
+    public List<Movie> getCast() {
         return cast;
     }
 }

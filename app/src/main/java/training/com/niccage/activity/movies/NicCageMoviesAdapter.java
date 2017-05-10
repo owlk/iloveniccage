@@ -1,4 +1,4 @@
-package training.com.niccage.movies;
+package training.com.niccage.activity.movies;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,12 +15,13 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import training.com.niccage.R;
-import training.com.niccage.rest.model.TmdbMovie;
+import training.com.niccage.activity.similarmovies.SimilarMoviesActivity;
+import training.com.niccage.rest.model.Movie;
 
-public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMovieViewHolder> {
-    private final List<TmdbMovie> movies;
+public class NicCageMoviesAdapter extends RecyclerView.Adapter<NicCageMoviesAdapter.NicMovieViewHolder> {
+    private final List<Movie> movies;
 
-    public NicMovieAdapter(List<TmdbMovie> movies) {
+    public NicCageMoviesAdapter(List<Movie> movies) {
         this.movies = movies;
     }
 
@@ -34,7 +35,7 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
 
     @Override
     public void onBindViewHolder(final NicMovieViewHolder holder, int position) {
-        final TmdbMovie movie = movies.get(position);
+        final Movie movie = movies.get(position);
 
         Context context = holder.posterImageView.getContext();
         String posterUrl = context.getString(R.string.image_url) + movie.getPosterPath();

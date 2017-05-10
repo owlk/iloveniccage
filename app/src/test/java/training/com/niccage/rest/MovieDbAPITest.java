@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import training.com.niccage.rest.model.NicCageMoviesList;
+import training.com.niccage.rest.model.NicCageMovies;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -21,7 +21,7 @@ public class MovieDbAPITest {
 
     @Test
     public void test() throws IOException {
-        NicCageMoviesList movies = API.getNicMovies().execute().body();
+        NicCageMovies movies = API.getNicMovies().execute().body();
 
         assertTrue(!movies.getCast().isEmpty());
     }

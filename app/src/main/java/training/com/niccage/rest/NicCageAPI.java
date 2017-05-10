@@ -8,7 +8,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import training.com.niccage.BuildConfig;
 import training.com.niccage.rest.model.NicCageDetails;
-import training.com.niccage.rest.model.NicCageMoviesList;
+import training.com.niccage.rest.model.NicCageMovies;
 import training.com.niccage.rest.model.SimilarMovies;
 
 public interface NicCageAPI {
@@ -22,7 +22,7 @@ public interface NicCageAPI {
     Call<NicCageDetails> getNickCage();
 
     @GET("person/2963/movie_credits?api_key=" + BuildConfig.API_KEY)
-    Call<NicCageMoviesList> getNicMovies();
+    Call<NicCageMovies> getNicMovies();
 
     @GET("movie/{movie_id}/similar")
     Call<SimilarMovies> getSimilarMovies(

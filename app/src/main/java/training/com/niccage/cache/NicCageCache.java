@@ -8,15 +8,15 @@ import retrofit2.Response;
 import training.com.niccage.BuildConfig;
 import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageDetails;
-import training.com.niccage.rest.model.NicCageMoviesList;
+import training.com.niccage.rest.model.NicCageMovies;
 import training.com.niccage.rest.model.SimilarMovies;
 
 public class NicCageCache {
     private NicCageDetails nicCageDetails;
     private Subscriber<NicCageDetails> nicCageDetailsSubscriber;
 
-    private NicCageMoviesList nicCageMoviesList;
-    private Subscriber<NicCageMoviesList> nicCageMoviesListSubscriber;
+    private NicCageMovies nicCageMovies;
+    private Subscriber<NicCageMovies> nicCageMoviesListSubscriber;
 
     private LruCache<Integer, SimilarMovies> similarMoviesCache = new LruCache<>(1024 * 1024 * 4);
     private Subscriber<SimilarMovies> similarMoviesSubscriber;
@@ -49,7 +49,7 @@ public class NicCageCache {
         }
     }
 
-    public void subscribeToNicCageMoviesList(Subscriber<NicCageMoviesList> subscriber) {
+    public void subscribeToNicCageMoviesList(Subscriber<NicCageMovies> subscriber) {
         nicCageMoviesListSubscriber = subscriber;
     }
 
@@ -59,20 +59,20 @@ public class NicCageCache {
 
     public void loadNicCageMoviesList() {
         if (nicCageMoviesListSubscriber != null) {
-            if (nicCageMoviesList == null) {
-                NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
+            if (nicCageMovies == null) {
+                NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMovies>() {
                     @Override
-                    public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
-                        nicCageMoviesList = response.body();
-                        nicCageMoviesListSubscriber.call(nicCageMoviesList);
+                    public void onResponse(Call<NicCageMovies> call, Response<NicCageMovies> response) {
+                        nicCageMovies = response.body();
+                        nicCageMoviesListSubscriber.call(nicCageMovies);
                     }
 
                     @Override
-                    public void onFailure(Call<NicCageMoviesList> call, Throwable t) {
+                    public void onFailure(Call<NicCageMovies> call, Throwable t) {
                     }
                 });
             } else {
-                nicCageMoviesListSubscriber.call(nicCageMoviesList);
+                nicCageMoviesListSubscriber.call(nicCageMovies);
             }
         }
     }
