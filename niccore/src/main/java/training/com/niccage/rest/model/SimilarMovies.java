@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO make this a DTO again
 public class SimilarMovies {
     @SerializedName("page")
     private Integer page = 0;

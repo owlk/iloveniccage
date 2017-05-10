@@ -113,6 +113,7 @@ public class NicCageCache {
                     .enqueue(new Callback<SimilarMovies>() {
                         @Override
                         public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
+                            // TODO need to append movies to the cache instead of replacing
                             similarMoviesCache.put(movieId, response.body());
                             similarMoviesSubscriber.call(response.body());
                         }
