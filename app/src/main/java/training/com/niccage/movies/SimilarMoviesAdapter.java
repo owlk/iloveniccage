@@ -37,7 +37,7 @@ public class SimilarMoviesAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (position == movies.size() - 1) {
             return page == totalPages ? NO_MORE_ITEMS_ITEM_TYPE : LOADING_ITEM_TYPE;
         } else {
-            return 1;
+            return NORMAL_ITEM_TYPE;
         }
     }
 
