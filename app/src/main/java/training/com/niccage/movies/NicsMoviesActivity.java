@@ -25,7 +25,7 @@ public class NicsMoviesActivity extends AppCompatActivity {
 
         final NicCageCache cache = ((NicApplication) getApplication()).getCache();
 
-        cache.getNicCageMovies(new NicCageCache.nicCageCacheCallback<NicCageMoviesList>() {
+        cache.getNicCageMovies(new NicCageCache.NicCageCacheCallback<NicCageMoviesList>() {
             @Override
             public void call(final NicCageMoviesList data) {
                 NicsMoviesActivity.this.runOnUiThread(new Runnable() {

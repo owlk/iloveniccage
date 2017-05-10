@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         final NicCageCache cache = ((NicApplication) getApplication()).getCache();
 
-        cache.getNicCageDetails(new NicCageCache.nicCageCacheCallback<NicCageDetails>() {
+        cache.getNicCageDetails(new NicCageCache.NicCageCacheCallback<NicCageDetails>() {
             @Override
             public void call(NicCageDetails data) {
                 setDetails(data);

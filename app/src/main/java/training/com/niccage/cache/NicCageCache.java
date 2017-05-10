@@ -5,19 +5,20 @@ import android.util.LruCache;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import training.com.niccage.BuildConfig;
 import training.com.niccage.rest.NicCageAPI;
 import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMoviesList;
 import training.com.niccage.rest.model.SimilarMovies;
 
-import static android.R.attr.id;
-
 public class NicCageCache {
     private NicCageDetails nicCageDetails = null;
     private NicCageMoviesList nicCageMovies = null;
-    private LruCache<Integer, SimilarMovies> similarMovies = new LruCache<>(1024 * 1024 * 4);
 
-    public void getNicCageDetails(final nicCageCacheCallback<NicCageDetails> callback) {
+    private LruCache<Integer, SimilarMovies> similarMoviesCache = new LruCache<>(1024 * 1024 * 4);
+    private NicCageCacheCallback<SimilarMovies> similarMoviesListener;
+
+    public void getNicCageDetails(final NicCageCacheCallback<NicCageDetails> callback) {
         if (nicCageDetails == null) {
             NicCageAPI.API.getNickCage().enqueue(new Callback<NicCageDetails>() {
                 @Override
@@ -27,16 +28,14 @@ public class NicCageCache {
                 }
 
                 @Override
-                public void onFailure(Call<NicCageDetails> call, Throwable t) {
-
-                }
+                public void onFailure(Call<NicCageDetails> call, Throwable t) { }
             });
         } else {
             callback.call(nicCageDetails);
         }
     }
 
-    public void getNicCageMovies(final nicCageCacheCallback<NicCageMoviesList> callback) {
+    public void getNicCageMovies(final NicCageCacheCallback<NicCageMoviesList> callback) {
         if (nicCageMovies == null) {
             NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
                 @Override
@@ -46,27 +45,42 @@ public class NicCageCache {
                 }
 
                 @Override
-                public void onFailure(Call<NicCageMoviesList> call, Throwable t) {
-
-                }
+                public void onFailure(Call<NicCageMoviesList> call, Throwable t) { }
             });
         } else {
             callback.call(nicCageMovies);
         }
     }
 
-    public void getSimilarMovies(Integer movieId, Integer page, final nicCageCacheCallback<SimilarMovies> callback) {
-        SimilarMovies similarMovies = this.similarMovies.get(id);
+    public void subscribeToSimilarMovies(NicCageCacheCallback<SimilarMovies> callback) {
+        similarMoviesListener = callback;
+    }
 
-        if (similarMovies == null || similarMovies.getPage() < page) {
-            // get all pages missing
-        } else {
-            // be normal
-            callback.call(similarMovies);
+    public void unsubscribeToSimilarMovies() {
+        similarMoviesListener = null;
+    }
+
+    public void loadMoreSimilarMovies(final Integer movieId) {
+        if (similarMoviesListener != null) {
+            SimilarMovies similarMovies = similarMoviesCache.get(movieId);
+
+            int page = similarMovies == null ? 1 : similarMovies.getPage() + 1;
+            NicCageAPI.API
+                    .getSimilarMovies(movieId, page, BuildConfig.API_KEY)
+                    .enqueue(new Callback<SimilarMovies>() {
+                        @Override
+                        public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
+                            similarMoviesCache.put(movieId, response.body());
+                            similarMoviesListener.call(response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<SimilarMovies> call, Throwable t) { }
+                    });
         }
     }
 
-    public interface nicCageCacheCallback<T> {
+    public interface NicCageCacheCallback<T> {
         void call(T data);
     }
 }
