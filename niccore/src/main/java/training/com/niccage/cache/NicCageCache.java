@@ -33,7 +33,7 @@ public class NicCageCache {
         nicCageDetailsSubscriber = callback;
     }
 
-    public void ubsubscribeToNicCageDetails() {
+    public void unsubscribeToNicCageDetails() {
         nicCageDetailsSubscriber = null;
     }
 

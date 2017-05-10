@@ -69,7 +69,7 @@ public class NicCageDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        ((NicCageApplication) getApplication()).getCache().ubsubscribeToNicCageDetails();
+        ((NicCageApplication) getApplication()).getCache().unsubscribeToNicCageDetails();
         super.onDestroy();
     }
 }
