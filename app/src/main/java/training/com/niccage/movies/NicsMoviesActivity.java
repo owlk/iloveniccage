@@ -28,23 +28,16 @@ public class NicsMoviesActivity extends AppCompatActivity {
 
         final NicCageCache cache = ((NicApplication) getApplication()).getCache();
 
-        NicCageMoviesList movies = cache.getNicCageMovies();
-        if (movies == null) {
-            NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMoviesList>() {
-                @Override
-                public void onResponse(Call<NicCageMoviesList> call, Response<NicCageMoviesList> response) {
-                    cache.setNicCageMovies(response.body());
-                    mRecyclerView.setAdapter(new NicMovieAdapter(response.body().getCast()));
-
-                }
-
-                @Override
-                public void onFailure(Call<NicCageMoviesList> call, Throwable t) {
-
-                }
-            });
-        } else {
-            mRecyclerView.setAdapter(new NicMovieAdapter(movies.getCast()));
-        }
+        cache.getNicCageMovies(new NicCageCache.nicCageCacheCallback<NicCageMoviesList>() {
+            @Override
+            public void call(final NicCageMoviesList data) {
+                NicsMoviesActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRecyclerView.setAdapter(new NicMovieAdapter(data.getCast()));
+                    }
+                });
+            }
+        });
     }
 }
