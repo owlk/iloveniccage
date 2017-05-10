@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final NicCageCache cache = ((NickApplication) getApplication()).getCache();
+        final NicCageCache cache = ((NicApplication) getApplication()).getCache();
 
         NicCageDetails nicCageDetails = cache.getNicCageDetails();
         if (nicCageDetails == null) {
