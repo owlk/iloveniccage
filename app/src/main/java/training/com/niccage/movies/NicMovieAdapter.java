@@ -27,7 +27,7 @@ public class NicMovieAdapter extends RecyclerView.Adapter<NicMovieAdapter.NicMov
     public NicMovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.list_item_nic_movie, parent, false);
+                .inflate(R.layout.list_item_movie_card, parent, false);
         return new NicMovieViewHolder(view);
     }
 
