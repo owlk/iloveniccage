@@ -2,6 +2,8 @@ package training.com.niccage.movies;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import retrofit2.Call;
@@ -21,12 +23,17 @@ public class SimilarMoviesActivity extends AppCompatActivity {
 
         final int movieId = getIntent().getExtras().getInt("movieId");
 
-
+        final RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.similarRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         NicCageAPI.API.getSimilarMovies(movieId).enqueue(new Callback<SimilarMovies>() {
             @Override
             public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
                 Toast.makeText(SimilarMoviesActivity.this, response.body().getTotalPages()+"", Toast.LENGTH_SHORT).show();
+
+                mRecyclerView.setAdapter(new NicMovieAdapter(response.body().getResults()));
             }
 
             @Override
