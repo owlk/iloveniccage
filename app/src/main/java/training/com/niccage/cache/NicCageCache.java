@@ -4,22 +4,22 @@ import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMoviesList;
 
 public class NicCageCache {
-    private static NicCageDetails nicCageDetails = null;
-    private static NicCageMoviesList nicCageMovies = null;
+    private NicCageDetails nicCageDetails = null;
+    private NicCageMoviesList nicCageMovies = null;
 
-    public static NicCageDetails getNicCageDetails() {
+    public NicCageDetails getNicCageDetails() {
         return nicCageDetails;
     }
 
-    public static void setNicCageDetails(NicCageDetails nicCageDetails) {
-        NicCageCache.nicCageDetails = nicCageDetails;
+    public void setNicCageDetails(NicCageDetails nicCageDetails) {
+        this.nicCageDetails = nicCageDetails;
     }
 
-    public static NicCageMoviesList getNicCageMovies() {
+    public NicCageMoviesList getNicCageMovies() {
         return nicCageMovies;
     }
 
-    public static void setNicCageMovies(NicCageMoviesList nicCageMovies) {
-        NicCageCache.nicCageMovies = nicCageMovies;
+    public void setNicCageMovies(NicCageMoviesList nicCageMovies) {
+        this.nicCageMovies = nicCageMovies;
     }
 }

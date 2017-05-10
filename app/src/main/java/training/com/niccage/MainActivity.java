@@ -32,13 +32,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        NicCageDetails nicCageDetails = NicCageCache.getNicCageDetails();
+        final NicCageCache cache = ((NickApplication) getApplication()).getCache();
+
+        NicCageDetails nicCageDetails = cache.getNicCageDetails();
         if (nicCageDetails == null) {
             API.getNickCage().enqueue(new Callback<NicCageDetails>() {
                 @Override
                 public void onResponse(Call<NicCageDetails> call, Response<NicCageDetails> response) {
                     final NicCageDetails nicCageDetails = response.body();
-                    NicCageCache.setNicCageDetails(nicCageDetails);
+                    cache.setNicCageDetails(nicCageDetails);
                     setDetails(nicCageDetails);
                 }
 
