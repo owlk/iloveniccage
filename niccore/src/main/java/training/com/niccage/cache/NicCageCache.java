@@ -6,14 +6,16 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import training.com.niccage.rest.NicCageAPI;
+import training.com.niccage.rest.NicCageApis;
 import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMovies;
 import training.com.niccage.rest.model.SimilarMovies;
 
-import static training.com.niccage.rest.NicCageAPI.API_KEY;
+import static training.com.niccage.rest.NicCageApis.API_KEY;
 
 public class NicCageCache {
+    private final NicCageApis nicCageApi;
+
     private NicCageDetails nicCageDetails;
     private Subscriber<NicCageDetails> nicCageDetailsSubscriber;
 
@@ -22,6 +24,10 @@ public class NicCageCache {
 
     private Map<Integer, SimilarMovies> similarMoviesCache = new HashMap<>();
     private Subscriber<SimilarMovies> similarMoviesSubscriber;
+
+    public NicCageCache(NicCageApis nicCageApi) {
+        this.nicCageApi = nicCageApi;
+    }
 
     public void subscribeToNicCageDetails(Subscriber<NicCageDetails> callback) {
         nicCageDetailsSubscriber = callback;
@@ -34,7 +40,7 @@ public class NicCageCache {
     public void loadNicCageDetails() {
         if (nicCageDetailsSubscriber != null) {
             if (nicCageDetails == null) {
-                NicCageAPI.API.getNickCage().enqueue(new Callback<NicCageDetails>() {
+                nicCageApi.getNickCage().enqueue(new Callback<NicCageDetails>() {
                     @Override
                     public void onResponse(Call<NicCageDetails> call, Response<NicCageDetails> response) {
                         nicCageDetails = response.body();
@@ -62,7 +68,7 @@ public class NicCageCache {
     public void loadNicCageMoviesList() {
         if (nicCageMoviesListSubscriber != null) {
             if (nicCageMovies == null) {
-                NicCageAPI.API.getNicMovies().enqueue(new Callback<NicCageMovies>() {
+                nicCageApi.getNicMovies().enqueue(new Callback<NicCageMovies>() {
                     @Override
                     public void onResponse(Call<NicCageMovies> call, Response<NicCageMovies> response) {
                         nicCageMovies = response.body();
@@ -103,8 +109,7 @@ public class NicCageCache {
             SimilarMovies similarMovies = similarMoviesCache.get(movieId);
 
             int page = similarMovies == null ? 1 : similarMovies.getPage() + 1;
-            NicCageAPI.API
-                    .getSimilarMovies(movieId, page, API_KEY)
+            nicCageApi.getSimilarMovies(movieId, page, API_KEY)
                     .enqueue(new Callback<SimilarMovies>() {
                         @Override
                         public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {

@@ -1,6 +1,5 @@
 package training.com.niccage.activity.movies;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +15,7 @@ import java.util.List;
 
 import training.com.niccage.R;
 import training.com.niccage.activity.similarmovies.SimilarMoviesActivity;
+import training.com.niccage.rest.NicCageApis;
 import training.com.niccage.rest.model.Movie;
 
 public class NicCageMoviesAdapter extends RecyclerView.Adapter<NicCageMoviesAdapter.NicMovieViewHolder> {
@@ -37,9 +37,9 @@ public class NicCageMoviesAdapter extends RecyclerView.Adapter<NicCageMoviesAdap
     public void onBindViewHolder(final NicMovieViewHolder holder, int position) {
         final Movie movie = movies.get(position);
 
-        Context context = holder.posterImageView.getContext();
-        String posterUrl = context.getString(R.string.image_url) + movie.getPosterPath();
-        Glide.with(context).load(posterUrl).into(holder.posterImageView);
+        Glide.with(holder.posterImageView.getContext())
+                .load(NicCageApis.BASE_IMAGE_URL + movie.getPosterPath())
+                .into(holder.posterImageView);
 
         holder.titleTextView.setText(movie.getTitle());
 

@@ -2,7 +2,6 @@
     <string name="app_name">Nic Cage</string>
 
     <string name="nics_movies">Nic\'s Movies</string>
-    <string name="image_url">http://image.tmdb.org/t/p/w1000</string>
     <string name="loading_more">Loading more…</string>
     <string name="no_more">No more items</string>
 </resources>
