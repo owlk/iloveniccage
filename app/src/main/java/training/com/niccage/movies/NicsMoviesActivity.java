@@ -24,12 +24,10 @@ public class NicsMoviesActivity extends AppCompatActivity {
 
         final RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.nicRecyclerView);
         mRecyclerView.setHasFixedSize(true);
-        GridLayoutManager mLayoutManager = new GridLayoutManager(this, getColumnCount());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
 
-        final NicCageCache cache = ((NicApplication) getApplication()).getCache();
-
-        cache.getNicCageMovies(new NicCageCache.NicCageCacheCallback<NicCageMoviesList>() {
+        NicCageCache cache = ((NicApplication) getApplication()).getCache();
+        cache.subscribeToNicCageMoviesList(new NicCageCache.Subscriber<NicCageMoviesList>() {
             @Override
             public void call(final NicCageMoviesList data) {
                 NicsMoviesActivity.this.runOnUiThread(new Runnable() {
@@ -40,5 +38,13 @@ public class NicsMoviesActivity extends AppCompatActivity {
                 });
             }
         });
+
+        cache.loadNicCageMoviesList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ((NicApplication) getApplication()).getCache().unsubscribeToNicCageMoviesList();
+        super.onDestroy();
     }
 }
