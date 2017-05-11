@@ -33,7 +33,7 @@ public class NicCageCache {
         nicCageDetailsSubscriber = callback;
     }
 
-    public Subscriber<NicCageDetails> getNicCageDetailsSubscriber() {
+    Subscriber<NicCageDetails> getNicCageDetailsSubscriber() {
         return nicCageDetailsSubscriber;
     }
 
@@ -65,7 +65,7 @@ public class NicCageCache {
         nicCageMoviesSubscriber = subscriber;
     }
 
-    public Subscriber<NicCageMovies> getNicCageMoviesSubscriber() {
+    Subscriber<NicCageMovies> getNicCageMoviesSubscriber() {
         return nicCageMoviesSubscriber;
     }
 
@@ -97,7 +97,7 @@ public class NicCageCache {
         similarMoviesSubscriber = subscriber;
     }
 
-    public Subscriber<SimilarMovies> getSimilarMoviesSubscriber() {
+    Subscriber<SimilarMovies> getSimilarMoviesSubscriber() {
         return similarMoviesSubscriber;
     }
 

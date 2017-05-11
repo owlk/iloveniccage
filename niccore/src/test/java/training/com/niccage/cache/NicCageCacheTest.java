@@ -1,6 +1,7 @@
 package training.com.niccage.cache;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,11 @@ public class NicCageCacheTest {
     @Before
     public void buildCache() {
         nicCageCache = new NicCageCache(nicCageApi);
+    }
+
+    @After
+    public void nullCache() {
+        nicCageCache = null;
     }
 
     @Test
