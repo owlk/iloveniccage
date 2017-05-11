@@ -47,7 +47,7 @@ public class NicCageMoviesActivity extends AppCompatActivity {
             }
         });
 
-        cache.loadNicCageMoviesList();
+        cache.loadNicCageMovies();
     }
 
     @Override

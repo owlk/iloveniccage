@@ -21,7 +21,7 @@ public interface NicCageApi {
 
     @GET("movie/{movie_id}/similar")
     Call<SimilarMovies> getSimilarMovies(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") Integer movieId,
             @Query("page") Integer page,
             @Query("api_key") String apiKey);
 }
