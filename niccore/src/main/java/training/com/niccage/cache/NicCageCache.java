@@ -40,7 +40,7 @@ public class NicCageCache {
     public void loadNicCageDetails() {
         if (nicCageDetailsSubscriber != null) {
             if (nicCageDetails == null) {
-                nicCageApi.getNickCage().enqueue(new Callback<NicCageDetails>() {
+                nicCageApi.getNicCageDetails().enqueue(new Callback<NicCageDetails>() {
                     @Override
                     public void onResponse(Call<NicCageDetails> call, Response<NicCageDetails> response) {
                         nicCageDetails = response.body();
@@ -68,7 +68,7 @@ public class NicCageCache {
     public void loadNicCageMoviesList() {
         if (nicCageMoviesListSubscriber != null) {
             if (nicCageMovies == null) {
-                nicCageApi.getNicMovies().enqueue(new Callback<NicCageMovies>() {
+                nicCageApi.getNicCageMovies().enqueue(new Callback<NicCageMovies>() {
                     @Override
                     public void onResponse(Call<NicCageMovies> call, Response<NicCageMovies> response) {
                         nicCageMovies = response.body();
