@@ -43,7 +43,7 @@ public class NicCageCacheTest {
             }
         }).when(call).enqueue(any(Callback.class));
 
-        when(nicCageApi.getNickCage()).thenReturn(call);
+        when(nicCageApi.getNicCageDetails()).thenReturn(call);
     }
 
     @Test
