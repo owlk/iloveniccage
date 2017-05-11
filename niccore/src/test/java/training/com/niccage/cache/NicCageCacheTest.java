@@ -1,6 +1,7 @@
 package training.com.niccage.cache;
 
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -30,9 +31,13 @@ public class NicCageCacheTest {
 
     private NicCageCache nicCageCache;
 
+    @Before
+    public void buildCache() {
+        nicCageCache = new NicCageCache(nicCageApi);
+    }
+
     @Test
     public void nicCageDetailsSubscriberCalled() {
-        givenApiBuilt();
         givenNicCageDetailsSubscriber();
 
         whenRequestNicCageDetailsCallSubscriber();
@@ -44,7 +49,6 @@ public class NicCageCacheTest {
 
     @Test
     public void nicCageMoviesSubscriberCalled() {
-        givenApiBuilt();
         givenNicCageMoviesSubscriber();
 
         whenRequestNicCageMoviesCallSubscriber();
@@ -56,7 +60,6 @@ public class NicCageCacheTest {
 
     @Test
     public void similarMoviesSubscriberCalled() {
-        givenApiBuilt();
         givenSimilarMoviesSubscriber();
 
         whenRequestSimilarMoviesCallSubscriber();
@@ -64,10 +67,6 @@ public class NicCageCacheTest {
         nicCageCache.loadSimilarMovies(1);
 
         verifySimilarMoviesSubscriberCalled();
-    }
-
-    private void givenApiBuilt() {
-        nicCageCache = new NicCageCache(nicCageApi);
     }
 
     private void givenNicCageDetailsSubscriber() {
