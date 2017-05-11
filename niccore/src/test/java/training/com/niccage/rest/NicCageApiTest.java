@@ -1,9 +1,8 @@
 package training.com.niccage.rest;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -18,23 +17,33 @@ public class NicCageApiTest {
     private NicCageApi nicCageApi;
     private MockWebServer server;
 
+    @Before
+    public void startServer() throws Exception {
+        server = new MockWebServer();
+        server.start();
+
+        nicCageApi = new Retrofit.Builder()
+                .baseUrl(server.url("/3/").toString())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(NicCageApi.class);
+    }
+
     @After
-    public void shutDownServer() throws IOException {
+    public void shutDownServer() throws Exception {
         server.shutdown();
     }
 
     @Test
     public void getNicCageDetails() throws Exception {
-        givenMockServerApiBuilt();
+        givenServerReturnsNicCageDetails();
 
         NicCageDetails nicCageDetails = nicCageApi.getNicCageDetails().execute().body();
 
         assertEquals("Nicolas Cage", nicCageDetails.getName());
     }
 
-
-    private void givenMockServerApiBuilt() throws IOException {
-        server = new MockWebServer();
+    private void givenServerReturnsNicCageDetails() {
         server.enqueue(new MockResponse().setBody(
                 "{\n" +
                         "  \"adult\": false,\n" +
@@ -56,13 +65,5 @@ public class NicCageApiTest {
                         "  \"profile_path\": \"\\/fW37Gbk5PJZuXvyZwtcr0cMwPKY.jpg\"\n" +
                         "}"
         ));
-        server.start();
-
-        nicCageApi = new Retrofit.Builder()
-                .baseUrl(server.url("/3/").toString())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(NicCageApi.class);
     }
-
 }
