@@ -71,14 +71,6 @@ public class NicCageApiTest {
         assertNotNull(similarMovies);
     }
 
-    private static String getTestResourceAsString(String fileName) throws URISyntaxException, IOException {
-        return new String(Files.readAllBytes(
-                Paths.get(NicCageApiTest.class
-                        .getClassLoader()
-                        .getResource(fileName)
-                        .toURI())), Charset.forName("UTF-8"));
-    }
-
     private void givenServerReturnsNicCageDetails() throws Exception {
         server.enqueue(new MockResponse().setBody(getTestResourceAsString("nicCageDetails.json")));
     }
@@ -89,5 +81,13 @@ public class NicCageApiTest {
 
     private void givenServerReturnsSimilarMovies() throws Exception {
         server.enqueue(new MockResponse().setBody(getTestResourceAsString("movie1722SimilarMovies.json")));
+    }
+
+    private static String getTestResourceAsString(String fileName) throws URISyntaxException, IOException {
+        return new String(Files.readAllBytes(
+                Paths.get(NicCageApiTest.class
+                        .getClassLoader()
+                        .getResource(fileName)
+                        .toURI())), Charset.forName("UTF-8"));
     }
 }
