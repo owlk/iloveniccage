@@ -6,10 +6,14 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.functions.Func1;
 import training.com.niccage.rest.NicCageApi;
 import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMovies;
 import training.com.niccage.rest.model.SimilarMovies;
+import training.com.niccage.rest.model.Video;
+import training.com.niccage.rest.model.Videos;
 
 import static training.com.niccage.rest.NicCageApi.API_KEY;
 
@@ -134,6 +138,24 @@ public class NicCageCache {
                         public void onFailure(Call<SimilarMovies> call, Throwable t) { }
                     });
         }
+    }
+
+    public Observable<String> getTrailer(int movieId) {
+        return nicCageApi
+                .getVideos(movieId)
+                .flatMapObservable(new Func1<Videos, Observable<Video>>() {
+                    @Override
+                    public Observable<Video> call(Videos videos) {
+                        return Observable.from(videos.getResults());
+                    }
+                })
+                .map(new Func1<Video, String>() {
+                    @Override
+                    public String call(Video video) {
+                        return "https://www.youtube.com/watch?v=" + video.getYoutubeKey();
+                    }
+                })
+                .take(1);
     }
 
     public interface Subscriber<T> {

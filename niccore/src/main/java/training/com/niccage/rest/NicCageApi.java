@@ -4,9 +4,11 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Single;
 import training.com.niccage.rest.model.NicCageDetails;
 import training.com.niccage.rest.model.NicCageMovies;
 import training.com.niccage.rest.model.SimilarMovies;
+import training.com.niccage.rest.model.Videos;
 
 public interface NicCageApi {
     String BASE_URL = "https://api.themoviedb.org/3/";
@@ -24,4 +26,7 @@ public interface NicCageApi {
             @Path("movie_id") Integer movieId,
             @Query("page") Integer page,
             @Query("api_key") String apiKey);
+
+    @GET("movie/{movie_id}/videos?api_key=" + API_KEY)
+    Single<Videos> getVideos(@Path("movie_id") int movieId);
 }

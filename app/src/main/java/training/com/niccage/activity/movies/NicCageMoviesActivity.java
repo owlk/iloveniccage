@@ -1,5 +1,7 @@
 package training.com.niccage.activity.movies;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +43,12 @@ public class NicCageMoviesActivity extends AppCompatActivity {
                 NicCageMoviesActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        nicRecyclerView.setAdapter(new NicCageMoviesAdapter(data.getCast()));
+                        nicRecyclerView.setAdapter(new NicCageMoviesAdapter(data.getCast(), new NicCageMoviesAdapter.TrailerListener() {
+                            @Override
+                            public void trailerCalled(String url) {
+                                NicCageMoviesActivity.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                            }
+                        }));
                     }
                 });
             }
