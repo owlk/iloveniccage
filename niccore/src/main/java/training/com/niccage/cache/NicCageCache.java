@@ -20,7 +20,7 @@ public class NicCageCache {
     private Subscriber<NicCageDetails> nicCageDetailsSubscriber;
 
     private NicCageMovies nicCageMovies;
-    private Subscriber<NicCageMovies> nicCageMoviesListSubscriber;
+    private Subscriber<NicCageMovies> nicCageMoviesSubscriber;
 
     private Map<Integer, SimilarMovies> similarMoviesCache = new HashMap<>();
     private Subscriber<SimilarMovies> similarMoviesSubscriber;
@@ -31,6 +31,10 @@ public class NicCageCache {
 
     public void subscribeToNicCageDetails(Subscriber<NicCageDetails> callback) {
         nicCageDetailsSubscriber = callback;
+    }
+
+    public Subscriber<NicCageDetails> getNicCageDetailsSubscriber() {
+        return nicCageDetailsSubscriber;
     }
 
     public void unsubscribeToNicCageDetails() {
@@ -58,21 +62,25 @@ public class NicCageCache {
     }
 
     public void subscribeToNicCageMoviesList(Subscriber<NicCageMovies> subscriber) {
-        nicCageMoviesListSubscriber = subscriber;
+        nicCageMoviesSubscriber = subscriber;
+    }
+
+    public Subscriber<NicCageMovies> getNicCageMoviesSubscriber() {
+        return nicCageMoviesSubscriber;
     }
 
     public void unsubscribeToNicCageMoviesList() {
-        nicCageMoviesListSubscriber = null;
+        nicCageMoviesSubscriber = null;
     }
 
-    public void loadNicCageMoviesList() {
-        if (nicCageMoviesListSubscriber != null) {
+    public void loadNicCageMovies() {
+        if (nicCageMoviesSubscriber != null) {
             if (nicCageMovies == null) {
                 nicCageApi.getNicCageMovies().enqueue(new Callback<NicCageMovies>() {
                     @Override
                     public void onResponse(Call<NicCageMovies> call, Response<NicCageMovies> response) {
                         nicCageMovies = response.body();
-                        nicCageMoviesListSubscriber.call(nicCageMovies);
+                        nicCageMoviesSubscriber.call(nicCageMovies);
                     }
 
                     @Override
@@ -80,13 +88,17 @@ public class NicCageCache {
                     }
                 });
             } else {
-                nicCageMoviesListSubscriber.call(nicCageMovies);
+                nicCageMoviesSubscriber.call(nicCageMovies);
             }
         }
     }
 
     public void subscribeToSimilarMovies(Subscriber<SimilarMovies> subscriber) {
         similarMoviesSubscriber = subscriber;
+    }
+
+    public Subscriber<SimilarMovies> getSimilarMoviesSubscriber() {
+        return similarMoviesSubscriber;
     }
 
     public void unsubscribeToSimilarMovies() {
