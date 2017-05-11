@@ -35,11 +35,11 @@ public class NicCageCacheTest {
         givenApiBuilt();
         givenNicCageDetailsSubscriber();
 
-        whenRequestNicCageDetailsCallSuccess();
+        whenRequestNicCageDetailsCallSubscriber();
 
         nicCageCache.loadNicCageDetails();
 
-        verifyNicCageDetailsSubscriptionUpdated();
+        verifyNicCageDetailsSubscriberCalled();
     }
 
     @Test
@@ -47,11 +47,23 @@ public class NicCageCacheTest {
         givenApiBuilt();
         givenNicCageMoviesSubscriber();
 
-        whenRequestNicCageMoviesCallSuccess();
+        whenRequestNicCageMoviesCallSubscriber();
 
         nicCageCache.loadNicCageMovies();
 
-        verifyNicCageMoviesSubscriptionUpdated();
+        verifyNicCageMoviesSubscriberCalled();
+    }
+
+    @Test
+    public void similarMoviesSubscriberCalled() {
+        givenApiBuilt();
+        givenSimilarMoviesSubscriber();
+
+        whenRequestSimilarMoviesCallSubscriber();
+
+        nicCageCache.loadSimilarMovies(1);
+
+        verifySimilarMoviesSubscriberCalled();
     }
 
     private void givenApiBuilt() {
@@ -66,7 +78,11 @@ public class NicCageCacheTest {
         nicCageCache.subscribeToNicCageMoviesList(mock(NicCageCache.Subscriber.class));
     }
 
-    private void whenRequestNicCageDetailsCallSuccess() {
+    private void givenSimilarMoviesSubscriber() {
+        nicCageCache.subscribeToSimilarMovies(mock(NicCageCache.Subscriber.class));
+    }
+
+    private void whenRequestNicCageDetailsCallSubscriber() {
         Call<NicCageDetails> call = mock(Call.class);
 
         doAnswer(new Answer<Void>() {
@@ -80,7 +96,7 @@ public class NicCageCacheTest {
         when(nicCageApi.getNicCageDetails()).thenReturn(call);
     }
 
-    private void whenRequestNicCageMoviesCallSuccess() {
+    private void whenRequestNicCageMoviesCallSubscriber() {
         Call<NicCageMovies> call = mock(Call.class);
 
         doAnswer(new Answer<Void>() {
@@ -94,7 +110,7 @@ public class NicCageCacheTest {
         when(nicCageApi.getNicCageMovies()).thenReturn(call);
     }
 
-    private void whenRequestSimilarMoviesCallSuccess() {
+    private void whenRequestSimilarMoviesCallSubscriber() {
         Call<SimilarMovies> call = mock(Call.class);
 
         doAnswer(new Answer<Void>() {
@@ -108,11 +124,15 @@ public class NicCageCacheTest {
         when(nicCageApi.getSimilarMovies(any(Integer.class), any(Integer.class), any(String.class))).thenReturn(call);
     }
 
-    private void verifyNicCageDetailsSubscriptionUpdated() {
+    private void verifyNicCageDetailsSubscriberCalled() {
         verify(nicCageCache.getNicCageDetailsSubscriber()).call(any(NicCageDetails.class));
     }
 
-    private void verifyNicCageMoviesSubscriptionUpdated() {
+    private void verifyNicCageMoviesSubscriberCalled() {
         verify(nicCageCache.getNicCageMoviesSubscriber()).call(any(NicCageMovies.class));
+    }
+
+    private void verifySimilarMoviesSubscriberCalled() {
+        verify(nicCageCache.getSimilarMoviesSubscriber()).call(any(SimilarMovies.class));
     }
 }
