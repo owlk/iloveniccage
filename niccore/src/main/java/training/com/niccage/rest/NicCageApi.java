@@ -14,10 +14,10 @@ public interface NicCageApi {
     String API_KEY = "5d0d42ca46c6abc45ddc0db8f6eac7cb";
 
     @GET("person/2963?api_key=" + API_KEY)
-    Call<NicCageDetails> getNickCage();
+    Call<NicCageDetails> getNicCageDetails();
 
     @GET("person/2963/movie_credits?api_key=" + API_KEY)
-    Call<NicCageMovies> getNicMovies();
+    Call<NicCageMovies> getNicCageMovies();
 
     @GET("movie/{movie_id}/similar")
     Call<SimilarMovies> getSimilarMovies(
