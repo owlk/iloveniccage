@@ -2,7 +2,6 @@ package training.com.niccage.activity.movies;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,12 +60,10 @@ public class NicCageMoviesAdapter extends RecyclerView.Adapter<NicCageMoviesAdap
                 v.getContext().startActivity(intent);
             }
         });
-        Log.d("movies", "gets called22");
         holder.posterImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 NicCageCache cache = ((NicCageApplication) v.getContext().getApplicationContext()).getCache();
-                Log.d("movies", "gets called");
                 cache.getTrailer(movie.getId())
                         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<String>() {

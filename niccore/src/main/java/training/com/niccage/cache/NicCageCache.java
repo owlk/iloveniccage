@@ -6,7 +6,9 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Emitter;
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import training.com.niccage.rest.NicCageApi;
 import training.com.niccage.rest.model.NicCageDetails;
@@ -28,6 +30,8 @@ public class NicCageCache {
 
     private Map<Integer, SimilarMovies> similarMoviesCache = new HashMap<>();
     private Subscriber<SimilarMovies> similarMoviesSubscriber;
+
+    private Map<Integer, String> trailerUrlsCache = new HashMap<>();
 
     public NicCageCache(NicCageApi nicCageApi) {
         this.nicCageApi = nicCageApi;
@@ -140,8 +144,8 @@ public class NicCageCache {
         }
     }
 
-    public Observable<String> getTrailer(int movieId) {
-        return nicCageApi
+    public Observable<String> getTrailer(final int movieId) {
+        Observable<String> apiCall = nicCageApi
                 .getVideos(movieId)
                 .flatMapObservable(new Func1<Videos, Observable<Video>>() {
                     @Override
@@ -155,7 +159,25 @@ public class NicCageCache {
                         return "https://www.youtube.com/watch?v=" + video.getYoutubeKey();
                     }
                 })
-                .take(1);
+                .take(1)
+                .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String url) {
+                        trailerUrlsCache.put(movieId, url);
+                    }
+                });
+
+        Observable<String> cache = Observable.create(new Action1<Emitter<String>>() {
+            @Override
+            public void call(Emitter<String> stringEmitter) {
+                if(trailerUrlsCache.containsKey(movieId)) {
+                    stringEmitter.onNext(trailerUrlsCache.get(movieId));
+                }
+                stringEmitter.onCompleted();
+            }
+        }, Emitter.BackpressureMode.BUFFER);
+
+        return Observable.concat(cache, apiCall).first();
     }
 
     public interface Subscriber<T> {
